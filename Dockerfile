@@ -11,4 +11,15 @@ RUN rm /app/frontend/ -rf
 
 
 
+<<<<<<< HEAD
+=======
+WORKDIR /app/backend
+COPY winbook-backend .
+RUN pip install -r requirements.txt
+RUN python manage.py migrate
+COPY --from=frontend /app/static/ /app/backend/statics/
+RUN mv /app/backend/statics/index.html /app/backend/templates/ -f
+RUN echo "yes" | python manage.py collectstatic --noinput
+
+>>>>>>> 9ad3fc41da65c26983c889f636fdf4803df57c0b
 

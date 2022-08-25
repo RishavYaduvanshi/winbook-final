@@ -16,7 +16,12 @@ from telnetlib import AUTHENTICATION
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+<<<<<<< HEAD
 STATICFILES_DIRS = [BASE_DIR / 'static']
+=======
+STATICFILES_DIRS = [BASE_DIR / 'statics']
+
+>>>>>>> 9ad3fc41da65c26983c889f636fdf4803df57c0b
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -60,7 +65,7 @@ ROOT_URLCONF = 'socialBackend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
