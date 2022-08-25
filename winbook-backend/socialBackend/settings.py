@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-t8a!epqd!s31a5ahz4^de!jsb1c6zwe9+v_yh*!jtp+1x+8y-r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["winbookbackend.d3m0n1k.engineer","*"]
 
 
 # Application definition
@@ -61,7 +61,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'socialBackend.urls'
 
 CORS_ORIGIN_ALLOW_ALL = True
-CSRF_TRUSTED_ORIGINS = ['https://winbookbackend.d3m0n1k.engineer ', 'http://localhost:3000']
+CSRF_TRUSTED_ORIGINS = ['https://winbookbackend.d3m0n1k.engineer', 'http://localhost:3000']
 
 TEMPLATES = [
     {
