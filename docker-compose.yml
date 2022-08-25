@@ -5,9 +5,9 @@ services:
     build: ./winbook-backend
     image: winbook-backend
     ports:
-      - "8081:8081"
+      - "8080:8080"
 
-    command: python /app/backend/manage.py runserver 0.0.0.0:8081
+    command: python /app/backend/manage.py runserver 0.0.0.0:8080
 
     volumes:
       - ./winbook-backend:/usr/src/app/
