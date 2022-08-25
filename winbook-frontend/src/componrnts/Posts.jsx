@@ -41,6 +41,7 @@ if (typeof ob !== 'undefined'){
         "Authorization": "Token " + localStorage.getItem('authtoken')
       },
     }).then((response) => {
+      console.log(response);
       if(response.status >= 200 && response.status < 300){
         response.json().then((data) => {
           //console.log(data);
