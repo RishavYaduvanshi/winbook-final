@@ -20,5 +20,5 @@ RUN pip install -r requirements.txt
 RUN python manage.py migrate
 RUN echo "yes" | python manage.py collectstatic --noinput
 COPY --from=frontend /app/static/ /app/backend/static/
-RUN mv /app/backend/static/index.html /app/backends/templates/ -f
+RUN mv /app/backend/static/index.html /app/backend/templates/ -f
 
