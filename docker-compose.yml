@@ -7,4 +7,4 @@ services:
     ports:
       - "8080:8080"
 
-    command: 
+    command: python /app/backend/manage.py runserver 0.0.0.0:8080
