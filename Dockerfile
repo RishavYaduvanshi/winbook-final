@@ -11,6 +11,8 @@ RUN rm /app/frontend/ -rf
 
 
 FROM python:3.10-slim AS backend
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app/backend
 COPY winbook-backend .
