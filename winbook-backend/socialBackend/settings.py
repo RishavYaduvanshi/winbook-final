@@ -61,7 +61,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'socialBackend.urls'
 
 CORS_ORIGIN_ALLOW_ALL = True
-CSRF_TRUSTED_ORIGINS = ['winbookbackend.d3m0n1k.engineer', 'localhost']
+CSRF_TRUSTED_ORIGINS = ['https://winbookbackend.d3m0n1k.engineer/', 'http://localhost:3000']
 
 TEMPLATES = [
     {
