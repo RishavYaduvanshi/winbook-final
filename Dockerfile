@@ -10,14 +10,5 @@ RUN mv /app/frontend/build/ /app/static/
 RUN rm /app/frontend/ -rf
 
 
-FROM python:3.10-slim AS backend
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
 
-WORKDIR /app/backend
-COPY winbook-backend .
-RUN pip install -r requirements.txt
-RUN python manage.py migrate
-RUN echo "yes" | python manage.py collectstatic --noinput
-COPY --from=frontend /app/static/ /app/backend/static/
 
