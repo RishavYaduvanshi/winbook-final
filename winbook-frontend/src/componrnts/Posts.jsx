@@ -36,7 +36,6 @@ if (typeof ob !== 'undefined'){
   const deletePost = () => {
     fetch('http://gagandeep.engineer:8080/post/',{
       method: 'DELETE',
-      mode: 'no-cors',
       headers: {
         "Accept": "application/json",
         "Authorization": "Token " + localStorage.getItem('authtoken')

@@ -40,7 +40,6 @@ export default function SignUp() {
     const data = new FormData(event.currentTarget);
     // console.log(data.get('username'));
     fetch('http://gagandeep.engineer:8080/signup/', {
-      mode: 'no-cors',
       method: 'POST',
       headers: {
         "Accept": "application/json",
