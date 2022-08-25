@@ -16,7 +16,7 @@ Including another URLconf
 from os import stat
 from django.contrib import admin
 from django.urls import path,include
-from authn.views import loginfunc,UserViewSet,signupFunc,index
+from authn.views import loginfunc,UserViewSet,signupFunc
 from postapp.views import PostViewSet
 from rest_framework.routers import DefaultRouter
 from django.conf import settings
@@ -30,7 +30,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('login/', loginfunc,name='login'),
     path('signup/', signupFunc,name='signup'),
-    path('',index),
+    # path('',index),
     path('',include(router.urls)),
     
     
