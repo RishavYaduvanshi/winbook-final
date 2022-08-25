@@ -65,7 +65,7 @@ const createpost = () => {
     
     //console.log(bdy);
 
-    fetch('http://winbook.d3m0n1k.engineer:8080/post/',{
+    fetch('https://winbookbackend.d3m0n1k.engineer/post/',{
       method: 'POST',
       headers: {
         "Accept": "application/json",

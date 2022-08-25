@@ -39,7 +39,7 @@ export default function SignUp() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // console.log(data.get('username'));
-    fetch('http://winbook.d3m0n1k.engineer:8080/signup/', {
+    fetch('https://winbookbackend.d3m0n1k.engineer/signup/', {
       method: 'POST',
       headers: {
         "Accept": "application/json",

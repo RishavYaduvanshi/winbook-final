@@ -34,7 +34,7 @@ const [anchorEl, setAnchorEl] = React.useState(null);
   
 if (typeof ob !== 'undefined'){
   const deletePost = () => {
-    fetch('http://winbook.d3m0n1k.engineer:8080/post/',{
+    fetch('https://winbookbackend.d3m0n1k.engineer/post/',{
       method: 'DELETE',
       headers: {
         "Accept": "application/json",
