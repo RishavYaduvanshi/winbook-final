@@ -17,5 +17,5 @@ COPY winbook-backend .
 RUN pip install -r requirements.txt
 RUN python manage.py migrate
 RUN echo "yes" | python manage.py collectstatic --noinput
-RUN mv /app/static/ /app/backend/static/
+COPY --from=frontend /app/static/ /app/backend/static/
 
