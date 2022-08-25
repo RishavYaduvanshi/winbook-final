@@ -4,10 +4,12 @@ WORKDIR /app/frontend
 COPY winbook-frontend .
 RUN npm install
 RUN npm run build --prod
-RUN mv /app/frontend/build/static/* /app/static/frontend/build/
+RUN mv /app/frontend/build/static/* /app/frontend/build/ -r
 RUN rm /app/frontend/build/static -rf
-RUN mv /app/frontend/build/* /app/static/
+RUN mv /app/frontend/build/ /app/static/
 RUN rm /app/frontend/ -rf
+
+
 FROM python:3.10-slim AS backend
 
 WORKDIR /app/backend
