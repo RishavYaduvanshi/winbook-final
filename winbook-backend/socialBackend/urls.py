@@ -30,7 +30,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('login/', loginfunc,name='login'),
     path('signup/', signupFunc,name='signup'),
-    path('',index),
+    # path('',index),
     path('',include(router.urls)),
     
     

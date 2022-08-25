@@ -16,7 +16,7 @@ services:
     build : ./winbook-frontend
     image: winbook-frontend
     ports:
-      - "8080:8080"
+      - "3000:3000"
     volumes:
       - ./winbook-frontend:/usr/src/app/
     
