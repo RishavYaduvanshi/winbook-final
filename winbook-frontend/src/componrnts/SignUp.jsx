@@ -39,7 +39,7 @@ export default function SignUp() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // console.log(data.get('username'));
-    fetch('http://gagandeep.engineer:8080/signup/', {
+    fetch('http://winbook.d3m0n1k.engineer:8080/signup/', {
       method: 'POST',
       headers: {
         "Accept": "application/json",

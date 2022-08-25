@@ -14,7 +14,7 @@ today = dd + '/' + mm + '/' + yyyy;
 const Feed = () => { 
 
 // const fetchUsers = async () => {
-// fetch('http://gagandeep.engineer:8080/post/',{
+// fetch('http://winbook.d3m0n1k.engineer:8080/post/',{
 //   method: 'GET',
 //   headers: {
 //     "Accept": "application/json",
@@ -40,7 +40,7 @@ const UserBox = styled(Box)(({ theme }) => ({
 var [users, setUsers] = useState([]);
 
 useEffect(() => {
-  fetch('http://gagandeep.engineer:8080/post/',{
+  fetch('http://winbook.d3m0n1k.engineer:8080/post/',{
     method: 'GET',
     headers: {
       "Accept": "application/json",

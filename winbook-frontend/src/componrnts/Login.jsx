@@ -68,7 +68,7 @@ export const Login = () => {
       password: data.get('password'),
     });
     console.log(cred);
-    fetch('http://gagandeep.engineer:8080/login/', {
+    fetch('http://winbook.d3m0n1k.engineer:8080/login/', {
       method: 'POST',
       headers: {
         "Accept": "application/json",
