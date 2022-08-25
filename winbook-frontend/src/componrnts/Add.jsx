@@ -67,6 +67,7 @@ const createpost = () => {
 
     fetch('http://gagandeep.engineer:8080/post/',{
       method: 'POST',
+      mode: 'no-cors',
       headers: {
         "Accept": "application/json",
         // "content-type":"multipart/form-data",

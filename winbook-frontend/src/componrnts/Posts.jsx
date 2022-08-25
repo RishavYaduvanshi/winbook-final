@@ -36,11 +36,13 @@ if (typeof ob !== 'undefined'){
   const deletePost = () => {
     fetch('http://gagandeep.engineer:8080/post/',{
       method: 'DELETE',
+      mode: 'no-cors',
       headers: {
         "Accept": "application/json",
         "Authorization": "Token " + localStorage.getItem('authtoken')
       },
     }).then((response) => {
+      console.log(response);
       if(response.status >= 200 && response.status < 300){
         response.json().then((data) => {
           //console.log(data);

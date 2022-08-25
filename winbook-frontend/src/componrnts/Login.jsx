@@ -70,6 +70,7 @@ export const Login = () => {
     console.log(cred);
     fetch('http://gagandeep.engineer:8080/login/', {
       method: 'POST',
+      mode: 'no-cors',
       headers: {
         "Accept": "application/json",
         // "Content-Type": "application/json"

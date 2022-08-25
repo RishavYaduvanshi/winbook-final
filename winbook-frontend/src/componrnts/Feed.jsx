@@ -41,6 +41,7 @@ var [users, setUsers] = useState([]);
 
 useEffect(() => {
   fetch('http://gagandeep.engineer:8080/post/',{
+    mode: 'no-cors',
     method: 'GET',
     headers: {
       "Accept": "application/json",
