@@ -37,7 +37,7 @@ class PostViewSet(viewsets.ModelViewSet):
             post = self.get_object()
             post.liked_by.add(request.user)
             post.save()
-            return Response(status=status.HTTP_200_OK)
+            return Response({"likes_count":post.liked_by.count()},status=status.HTTP_200_OK)
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
