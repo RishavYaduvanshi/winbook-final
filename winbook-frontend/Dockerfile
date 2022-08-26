@@ -1,5 +1,5 @@
-FROM node:18-alpine3.15 
+FROM node:18.7
 
 WORKDIR /app/frontend
 COPY . .
-RUN npm install
+RUN npm install --force

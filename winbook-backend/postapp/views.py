@@ -5,6 +5,7 @@ from .models import Post
 from .serializer import PostSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.views import Response, status
+from rest_framework.decorators import action
 # Create your views here.
 
 
@@ -30,4 +31,14 @@ class PostViewSet(viewsets.ModelViewSet):
         
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
+    @action(methods=['post'], detail=True)
+    def like(self, request, pk=None):
+        try:
+            post = self.get_object()
+            post.liked_by.add(request.user)
+            post.save()
+            return Response(status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
 
