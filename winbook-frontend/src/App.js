@@ -2,10 +2,8 @@ import SignUp from "./componrnts/SignUp";
 import Login from "./componrnts/Login";
 import { Content } from "./componrnts/Content";
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
-  Link
 } from "react-router-dom";
 
 
