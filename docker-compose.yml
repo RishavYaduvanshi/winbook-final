@@ -10,7 +10,7 @@ services:
     command: python /app/backend/manage.py runserver 0.0.0.0:8080
 
     volumes:
-      - winbook-backend:/usr/src/app/
+      - winbook-backend:/app/backend/
 
   frontend:
     depends_on:
