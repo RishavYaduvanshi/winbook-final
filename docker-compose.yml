@@ -10,7 +10,7 @@ services:
     command: python /app/backend/manage.py runserver 0.0.0.0:8080
 
     volumes:
-      - winbook-backend:/app/backend/
+      - ./winbook-backend/:/app/backend/
 
   frontend:
     depends_on:
@@ -20,6 +20,6 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - winbook-frontend:/usr/src/app/
+      - ./winbook-frontend/:/usr/src/app/
     
     command: npm run start --prod
