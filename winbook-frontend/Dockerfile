@@ -2,4 +2,4 @@ FROM node:18.7
 
 WORKDIR /app/frontend
 COPY . .
-RUN npm install --force
+RUN npm install --legacy-peer-deps
