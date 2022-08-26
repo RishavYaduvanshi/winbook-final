@@ -49,7 +49,7 @@ const Navbar = ({ mode, setMode }) => {
   return (
     <AppBar position='sticky'>
       <StyledToolBar>
-        <Typography variant='h6' sx={{ display: { xs: "none", sm: "block" } }}>WinkBook</Typography>
+        <Typography variant='h6' sx={{ display: { xs: "none", sm: "block" } }}>WinBook</Typography>
         <Laptop sx={{ display: { xs: "block", sm: "none" } }} onClick={() => setOpen1(true)} />
         <Search>
           <InputBase placeholder='Search...' />
