@@ -6,7 +6,6 @@ import Rightbar from "./Rightbar";
 import Sidebar from "./Sidebar";
 import { useState } from 'react';
 import { Box, createTheme, Stack, ThemeProvider } from "@mui/material";
-import { useNavigate } from 'react-router-dom';
 
 
 export const Main = () => {

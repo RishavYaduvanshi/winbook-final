@@ -1,5 +1,5 @@
 import { Checkbox } from '@mui/material'
-import React from 'react'
+import React,{useState} from 'react'
 import PersonIcon from '@mui/icons-material/Person';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -12,17 +12,16 @@ import Typography from '@mui/material/Typography';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Favorite, FavoriteBorder} from '@mui/icons-material';
-import { useState } from 'react'
 import {Divider} from '@mui/material';
 import { Menu, MenuItem } from '@mui/material';
+// import { useState } from 'react'
 
- const Posts = ({ob}) => {
+ const Posts = ({ob},st,cnt) => {
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, '0');
 var mm = String(today.getMonth() + 1).padStart(2, '0');
 var yyyy = today.getFullYear();
 today = dd + '/' + mm + '/' + yyyy;
-
 const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -31,8 +30,21 @@ const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClose = () => {
     setAnchorEl(null);
   };
+  console.log(ob);
+  const [like,setlike] = useState((typeof ob!=='undefined')?ob.liked_cnt:0);
+  const [status,setstatus] = useState((typeof ob!=='undefined')?ob.likedStatus:false);
+ 
+  if(typeof ob === 'undefined') return null;
+ 
+var like_count  = ob.liked_cnt;
+var like_status = ob.likedStatus;
+//setstatus(like_status);
+
+
+//if (typeof ob !== 'undefined'){
+  console.log("st is ",ob.likedStatus,"cnt is ",ob.liked_cnt,"like is ",like,"status is",status);
   
-if (typeof ob !== 'undefined'){
+  console.log(ob);
   const deletePost = () => {
     fetch('https://winbookbackend.d3m0n1k.engineer/post/',{
       method: 'DELETE',
@@ -49,6 +61,26 @@ if (typeof ob !== 'undefined'){
       }
     })
   }
+
+  const likePost = () => {
+    fetch('https://winbookbackend.d3m0n1k.engineer/post/'+ob.pk+'/like/',{
+      method: 'POST',
+      headers: {
+        "Accept": "application/json",
+        "Authorization": "Token " + localStorage.getItem('authtoken')
+      },
+    }).then((response) => {
+      console.log(response);
+      if(response.status >= 200 && response.status < 300){
+        response.json().then((data) => {
+          console.log(data);
+          setlike(data.likes_count);
+          setstatus(data.hasOwnProperty('liked_status')?data.liked_status:true);
+        })
+      }
+    })
+  }
+  
   return (
     <Card sx={{margin:0.5}}>
       <CardHeader
@@ -69,16 +101,22 @@ if (typeof ob !== 'undefined'){
         component="img"
         height="20%"
         image= {ob.url}
-        alt={ob.caption}
+        alt={ob.userName}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           {ob.caption}
         </Typography>
+        <Divider />
+        <Typography variant="body2" color="text.secondary" marginTop={1} marginBottom={0}>
+          Liked By <strong>{like}</strong> Others
+          </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-        <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite sx={{color:"red"}}/>} />
+        {status===true?<><Favorite sx={{color:"red"}}/></>:<><FavoriteBorder onClick={likePost} /></>}
+        {/* <Checkbox icon={<FavoriteBorder />}  checkedIcon={<Favorite sx={{color:"red"}}/>} onClick={likePost}/> */}
+        <h6>{like}</h6>
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />
@@ -100,10 +138,9 @@ if (typeof ob !== 'undefined'){
           horizontal: 'right',
         }}
       >
+        {ob.userName === localStorage.getItem('user')?<div>
         <MenuItem >Edit Post</MenuItem>
         <Divider />
-        {ob.userName === localStorage.getItem('user')?
-        <div>
         <MenuItem onClick={deletePost}>Delete Post</MenuItem>
         <Divider />
         </div>: <div></div>}
@@ -116,6 +153,5 @@ if (typeof ob !== 'undefined'){
     </Card>
   );
       }
-}
 
 export default Posts
