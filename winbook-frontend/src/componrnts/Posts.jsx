@@ -26,14 +26,13 @@ const Posts = ({ ob }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
-  console.log(ob);
   const [like, setlike] = useState((typeof ob !== 'undefined') ? ob.liked_cnt : 0);
   const [status, setstatus] = useState((typeof ob !== 'undefined') ? ob.likedStatus : false);
 
@@ -107,12 +106,12 @@ const Posts = ({ ob }) => {
         </Typography>
         <Divider />
         <Typography variant="body2" color="text.secondary" marginTop={1} marginBottom={0}>
-          Liked By <strong>{like}</strong> Others
+          Liked By <strong>{like}</strong> People in total
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          {status === true ? <><Favorite sx={{ color: "red" }} /></> : <><FavoriteBorder onClick={likePost} /></>}
+          {status === true ? <><Favorite sx={{ color: "red" }} onClick={likePost} /></> : <><FavoriteBorder onClick={likePost} /></>}
           {/* <Checkbox icon={<FavoriteBorder />}  checkedIcon={<Favorite sx={{color:"red"}}/>} onClick={likePost}/> */}
           <h6>{like}</h6>
         </IconButton>
