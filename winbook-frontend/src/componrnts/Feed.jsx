@@ -63,8 +63,7 @@ if (users.length===0) return <UserBox><CircularProgress /></UserBox>;
     {
       users.map((post) => {
         if(typeof post !== 'undefined'){
-        return <Posts ob={post} st={post.hasOwnProperty("likedStatus")? post.likedStatus:false}
-        cnt={post.hasOwnProperty("liked_cnt")? post.liked_cnt:0}/>
+        return <Posts ob={post}/>
         }
       })
     }
