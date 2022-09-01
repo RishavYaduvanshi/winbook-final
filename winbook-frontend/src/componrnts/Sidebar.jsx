@@ -1,6 +1,7 @@
 import { AccountBox, Article, Group, Home, ModeNight, Person, Settings, Storefront } from '@mui/icons-material'
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, styled, Switch } from '@mui/material'
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -50,6 +51,8 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 }));
 
 const Sidebar = ({mode,setMode}) => {
+  const history = useNavigate();
+
   return (
     <Box 
     flex={1} 
@@ -58,8 +61,10 @@ const Sidebar = ({mode,setMode}) => {
     >
       <Box position="fixed">
           <List>
-          <ListItem disablePadding>
-            <ListItemButton>
+          <ListItem disablePadding >
+            <ListItemButton onClick={()=>{
+              history("/home")
+            }}>
               <ListItemIcon>
                 <Home/>
               </ListItemIcon>
