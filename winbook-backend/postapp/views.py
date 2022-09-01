@@ -42,3 +42,7 @@ class PostViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
 
+    def destroy(self, request, *args, **kwargs):
+        if(self.get_object().user.pk==request.user.pk):
+            return super().destroy(request, *args, **kwargs)
+        return Response(status=status.HTTP_403_FORBIDDEN)
