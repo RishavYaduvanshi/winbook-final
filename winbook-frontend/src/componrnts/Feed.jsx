@@ -49,19 +49,22 @@ useEffect(() => {
   }).then((response) => {
     if(response.status >= 200 && response.status < 300){
       response.json().then((data) => {
-        console.log(data);
+        //console.log(data);
         setUsers(data);
       })
     }
   })
 }, []);
+
 if (users.length===0) return <UserBox><CircularProgress /></UserBox>;
-//console.log(users);
+
  return (
   <Box flex={4} p={2}>
     {
       users.map((post) => {
-        return <Posts ob={post} />
+        if(typeof post !== 'undefined'){
+        return <Posts ob={post}/>
+        }
       })
     }
   <Posts/>

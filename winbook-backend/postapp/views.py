@@ -35,9 +35,15 @@ class PostViewSet(viewsets.ModelViewSet):
     def like(self, request, pk=None):
         try:
             post = self.get_object()
-            post.liked_by.add(request.user)
+            hasLiked = post.liked_by.filter(pk=request.user.pk).exists()
+            
+            if(not hasLiked):
+                post.liked_by.add(request.user)
+            else:
+                post.liked_by.remove(request.user)
+            
             post.save()
-            return Response({"likes_count":post.liked_by.count()},status=status.HTTP_200_OK)
+            return Response({"likes_count":post.liked_by.count(),"liked_status":not hasLiked},status=status.HTTP_200_OK)
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         

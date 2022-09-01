@@ -4,7 +4,7 @@ import { AppBar, styled, Toolbar, Typography, Box, InputBase, Avatar, Menu, Menu
 import { AccountBox, Article, Group, Home, Person, Settings, Storefront } from '@mui/icons-material'
 import { pink } from '@mui/material/colors';
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Divider, ListItemIcon } from '@mui/material';
 import { PersonAdd } from '@mui/icons-material';
 import { Logout } from '@mui/icons-material';
@@ -44,12 +44,15 @@ const Navbar = ({ mode, setMode }) => {
     localStorage.removeItem('user');
     history("/");
   }
+  const profile = () => {
+    history('/profile');
+  }
 
 
   return (
     <AppBar position='sticky'>
       <StyledToolBar>
-        <Typography variant='h6' sx={{ display: { xs: "none", sm: "block" } }}>WinBook</Typography>
+        <NavLink to={"/home"} style={{color:'white',textDecoration:'none'}}><Typography variant='h6' sx={{ display: { xs: "none", sm: "block" } }}>WinBook</Typography></NavLink>
         <Laptop sx={{ display: { xs: "block", sm: "none" } }} onClick={() => setOpen1(true)} />
         <Search>
           <InputBase placeholder='Search...' />
@@ -94,11 +97,8 @@ const Navbar = ({ mode, setMode }) => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
       >
-        <MenuItem>
+        <MenuItem onClick={profile}>
           <Avatar /> Profile
-        </MenuItem>
-        <MenuItem>
-          <Avatar /> My account
         </MenuItem>
         <Divider />
         <MenuItem>
