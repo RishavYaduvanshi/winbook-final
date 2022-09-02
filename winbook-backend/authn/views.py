@@ -7,6 +7,9 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from .models import User
 from .serializers import UserSerializer
+from rest_framework.views import Response
+from django.shortcuts import get_object_or_404
+from rest_framework.decorators import action
 # Create your views here.
 
 
@@ -55,4 +58,60 @@ def signupFunc(request):
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def list(self, request, *args, **kwargs):
+        return Response({"status":"error","message":"you are not allowed to list users"},status=401)
     
+    def create(self, request, *args, **kwargs):
+        return Response({"status":"error","message":"you are not allowed to create users"},status=401)
+    
+    def update(self, request, *args, **kwargs):
+        if(request.user.is_superuser or request.user.pk == self.get_object().pk):
+            return super().update(request, *args, **kwargs)
+        return Response({"status":"error","message":"you are not allowed to update this user"},status=401)
+    
+
+    def destroy(self, request, *args, **kwargs):
+        if(request.user.is_superuser or request.user.pk == self.get_object().pk):
+            return super().destroy(request, *args, **kwargs)
+        return Response({"status":"error","message":"you are not allowed to delete this user"},status=401)
+    
+    def retrieve(self, request, *args, **kwargs):
+        instance = get_object_or_404(User,username=kwargs['pk'])
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    def partial_update(self, request, *args, **kwargs):
+
+        if(request.user.is_superuser or request.user.pk == self.get_object().pk):
+            partial = True
+            instance = get_object_or_404(User,username=kwargs['pk'])
+            serializer = self.get_serializer(instance, data=request.data, partial=partial)
+            serializer.is_valid(raise_exception=True)
+            self.perform_update(serializer)
+            return Response(serializer.data)
+
+        return Response({"status":"error","message":"you are not allowed to update this user"},status=401)
+
+    @action(detail=True,methods=['post'])
+    def update_dp(self,request,*args,**kwargs):
+        pk =  kwargs['pk'] 
+        if(request.user.is_superuser or request.user.pk == self.get_object().pk):
+            instance = get_object_or_404(User,username=pk)
+            instance.dp = request.data['dp']
+            instance.save()
+            return Response({"status":"success","message":"dp updated successfully"})
+        
+        return Response({"status":"error","message":"you are not allowed to update this user"},status=401)
+
+
+    @action(detail=True,methods=['post'])
+    def update_cover(self,request,*args,**kwargs):
+        pk =  kwargs['pk'] 
+        if(request.user.is_superuser or request.user.pk == self.get_object().pk):
+            instance = get_object_or_404(User,username=pk)
+            instance.cover = request.data['cover']
+            instance.save()
+            return Response({"status":"success","message":"cover updated successfully"})
+        
+        return Response({"status":"error","message":"you are not allowed to update this user"},status=401)
