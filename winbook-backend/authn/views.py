@@ -79,7 +79,7 @@ class UserViewSet(ModelViewSet):
     def partial_update(self, request, *args, **kwargs):
         if(request.user.is_superuser or request.user.pk == self.get_object().pk):
             partial = True
-            instance = get_object_or_404(User,username=kwargs['pk'])
+            instance = get_object_or_404(User,pk=request.user.pk)
             serializer = self.get_serializer(instance, data=request.data, partial=partial)
             serializer.is_valid(raise_exception=True)
             self.perform_update(serializer)
@@ -91,7 +91,7 @@ class UserViewSet(ModelViewSet):
     def update_dp(self,request,*args,**kwargs):
         pk =  kwargs['pk'] 
         if(request.user.is_superuser or request.user.pk == self.get_object().pk):
-            instance = get_object_or_404(User,username=pk)
+            instance = get_object_or_404(User,pk=pk)
             instance.dp = request.data['dp']
             instance.save()
             return Response({"status":"success","message":"dp updated successfully"})
@@ -103,7 +103,7 @@ class UserViewSet(ModelViewSet):
     def update_cover(self,request,*args,**kwargs):
         pk =  kwargs['pk'] 
         if(request.user.is_superuser or request.user.pk == self.get_object().pk):
-            instance = get_object_or_404(User,username=pk)
+            instance = get_object_or_404(User,pk=pk)
             instance.cover = request.data['cover']
             instance.save()
             return Response({"status":"success","message":"cover updated successfully"})
