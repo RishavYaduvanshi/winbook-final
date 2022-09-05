@@ -76,6 +76,7 @@ class UserViewSet(ModelViewSet):
         return Response({"status":"error","message":"you are not allowed to delete this user"},status=401)
     
     def retrieve(self, request, *args, **kwargs):
+        print(kwargs)
         instance = get_object_or_404(User,username=kwargs['pk'])
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
