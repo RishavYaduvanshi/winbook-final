@@ -55,12 +55,11 @@ def signupFunc(request):
         user.set_password(password)
         user.save()
     return HttpResponse('{"status":"success","message":"signup success"}',status=200)
+
+
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
-    def list(self, request, *args, **kwargs):
-        return Response({"status":"error","message":"you are not allowed to list users"},status=401)
     
     def create(self, request, *args, **kwargs):
         return Response({"status":"error","message":"you are not allowed to create users"},status=401)
