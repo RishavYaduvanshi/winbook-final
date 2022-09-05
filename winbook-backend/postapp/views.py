@@ -59,7 +59,7 @@ class PostViewSet(viewsets.ModelViewSet):
             return super().update(request, *args, **kwargs)
         return Response(status=status.HTTP_403_FORBIDDEN)
     
-    @action(methods=['get'], detail=False,url_path=r'search/(?P<query>.+)')
+    @action(methods=['get'], detail=False,url_path=r's/(?P<query>.+)')
     def search(self, request, query=None):
 
         posts = self.get_queryset().filter(Q(caption__icontains=query) | 
