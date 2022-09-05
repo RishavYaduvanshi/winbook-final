@@ -1,6 +1,5 @@
 from rest_framework.serializers import ModelSerializer,SerializerMethodField
 
-from authn.serializers import UserSerializer
 from .models import Post
 
 class PostSerializer(ModelSerializer):

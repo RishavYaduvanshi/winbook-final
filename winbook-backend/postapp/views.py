@@ -6,6 +6,7 @@ from .serializer import PostSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.views import Response, status
 from rest_framework.decorators import action
+from django.db.models import Q
 # Create your views here.
 
 
@@ -48,3 +49,27 @@ class PostViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
 
+    def destroy(self, request, *args, **kwargs):
+        if(self.get_object().user.pk==request.user.pk):
+            return super().destroy(request, *args, **kwargs)
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
+    def update(self, request, *args, **kwargs):
+        if(self.get_object().user.pk==request.user.pk):
+            return super().update(request, *args, **kwargs)
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    
+    @action(methods=['get'], detail=False,url_path=r's/(?P<query>.+)')
+    def search(self, request, query=None):
+
+        posts = self.get_queryset().filter(Q(caption__icontains=query) | 
+                Q(user__username__icontains=query) | Q(user__first_name__icontains=query) |
+                Q(user__last_name__icontains=query)| Q(user__email__icontains=query))
+
+        serializer = self.get_serializer(posts, many=True)
+        return Response(serializer.data)
+    
+    def partial_update(self, request, *args, **kwargs):
+        if(self.get_object().user.pk==request.user.pk):
+            return super().partial_update(request, *args, **kwargs)
+        return Response(status=status.HTTP_403_FORBIDDEN)

@@ -7,52 +7,189 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from .models import User
 from .serializers import UserSerializer
+from rest_framework.views import Response
+from django.shortcuts import get_object_or_404
+from rest_framework.decorators import action
+from django.db.models import Q
+from django.core.mail import send_mail
+from .helpers import forgot_password
+
 # Create your views here.
 
 
 def loginfunc(request):
-    if(not request.POST):
+    if not request.POST:
         request.POST = json.loads(request.body)
-    
-    username = request.POST.get('username',None)
-    password = request.POST.get('password',None)
 
+    username = request.POST.get("username", None)
+    password = request.POST.get("password", None)
 
-    if(username is None or password is None):
-        return  HttpResponse('{"status":"error","message":"username or password is empty"}',status=401)
+    if username is None or password is None:
+        return HttpResponse(
+            '{"status":"error","message":"username or password is empty"}', status=401
+        )
 
-    print(username,password)
-    user = authenticate(username=username,password=password)
+    print(username, password)
+    user = authenticate(username=username, password=password)
 
-    if(user is None):
-        return HttpResponse('{"status":"error","message":"username or password is wrong"}',status=401)
+    if user is None:
+        return HttpResponse(
+            '{"status":"error","message":"username or password is wrong"}', status=401
+        )
     else:
-        token,_ = Token.objects.get_or_create(user=user)
-        return HttpResponse('{"status":"success","token":"'+token.key+'"}',status=200)
+        token, _ = Token.objects.get_or_create(user=user)
+        return HttpResponse(
+            '{"status":"success","token":"' + token.key + '"}', status=200
+        )
 
 
 def signupFunc(request):
     # request.POST = json.loads(request.body)
-    if(not request.POST):
+    if not request.POST:
         request.POST = json.loads(request.body)
-    
-    username = request.POST.get('username',None)
-    password = request.POST.get('password',None)
-    first_name = request.POST.get('first_name',None)
-    last_name = request.POST.get('last_name',None)
-    email = request.POST.get('email',None)
 
-    print(username,password,first_name,last_name,email)
+    username = request.POST.get("username", None)
+    password = request.POST.get("password", None)
+    first_name = request.POST.get("first_name", None)
+    last_name = request.POST.get("last_name", None)
+    email = request.POST.get("email", None)
 
-    if( username is None or password is None or first_name is None or last_name is None or email is None):
-        return HttpResponse('{"status":"error","message":"username or password is empty"}',status=401)
+    print(username, password, first_name, last_name, email)
+
+    if (
+        username is None
+        or password is None
+        or first_name is None
+        or last_name is None
+        or email is None
+    ):
+        return HttpResponse(
+            '{"status":"error","message":"username or password is empty"}', status=401
+        )
 
     else:
-        user = User(username=username,first_name=first_name,last_name=last_name,email=email)
+        user = User(
+            username=username, first_name=first_name, last_name=last_name, email=email
+        )
         user.set_password(password)
         user.save()
-    return HttpResponse('{"status":"success","message":"signup success"}',status=200)
+    return HttpResponse('{"status":"success","message":"signup success"}', status=200)
+
+
+def forgotPassword(request):
+    email = request.POST.get("email", None)
+    if email is None:
+        return HttpResponse('{"status":"error","message":"email is empty"}', status=401)
+    else:
+        user = User.objects.filter(email=email)
+        if user.exists():
+            user = user[0]
+            send_mail(
+                subject="Reset Password",
+                html_message=forgot_password.gen_forgot_mail(request, user),
+                message="",
+                from_email="no-reply@winbook.gg",
+                fail_silently=False,
+                recipient_list=[user.email],
+            )
+            return HttpResponse(
+                '{"status":"success","message":"email sent"}', status=200
+            )
+        else:
+            return HttpResponse(
+                '{"status":"error","message":"email is invalid"}', status=401
+            )
+
+
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    
+
+    def create(self, request, *args, **kwargs):
+        return Response(
+            {"status": "error", "message": "you are not allowed to create users"},
+            status=401,
+        )
+
+    def update(self, request, *args, **kwargs):
+        if request.user.is_superuser or request.user.pk == self.get_object().pk:
+            return super().update(request, *args, **kwargs)
+        return Response(
+            {"status": "error", "message": "you are not allowed to update this user"},
+            status=401,
+        )
+
+    def destroy(self, request, *args, **kwargs):
+        if request.user.is_superuser or request.user.pk == self.get_object().pk:
+            return super().destroy(request, *args, **kwargs)
+        return Response(
+            {"status": "error", "message": "you are not allowed to delete this user"},
+            status=401,
+        )
+
+    def partial_update(self, request, *args, **kwargs):
+        if request.user.is_superuser or request.user.pk == self.get_object().pk:
+            partial = True
+            instance = get_object_or_404(User, pk=request.user.pk)
+            serializer = self.get_serializer(
+                instance, data=request.data, partial=partial
+            )
+            serializer.is_valid(raise_exception=True)
+            self.perform_update(serializer)
+            return Response(serializer.data)
+
+        return Response(
+            {"status": "error", "message": "you are not allowed to update this user"},
+            status=401,
+        )
+
+    @action(detail=True, methods=["post"])
+    def update_dp(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+        if request.user.is_superuser or request.user.pk == self.get_object().pk:
+            instance = get_object_or_404(User, pk=pk)
+            instance.dp = request.data["dp"]
+            instance.save()
+            return Response({"status": "success", "message": "dp updated successfully"})
+
+        return Response(
+            {"status": "error", "message": "you are not allowed to update this user"},
+            status=401,
+        )
+
+    @action(detail=True, methods=["post"])
+    def update_cover(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+        if request.user.is_superuser or request.user.pk == self.get_object().pk:
+            instance = get_object_or_404(User, pk=pk)
+            instance.cover = request.data["cover"]
+            instance.save()
+            return Response(
+                {"status": "success", "message": "cover updated successfully"}
+            )
+
+        return Response(
+            {"status": "error", "message": "you are not allowed to update this user"},
+            status=401,
+        )
+
+    @action(detail=False, methods=["get"], url_path=r"f/(?P<username>.+)")
+    def get_by_username(self, request, *args, **kwargs):
+        query = kwargs["username"]
+        print(query)
+        instance = get_object_or_404(User, username=query)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=["get"], url_path=r"s/(?P<query>.+)")
+    def search(self, request, *args, **kwargs):
+        query = kwargs["query"]
+        print(query)
+        instance = User.objects.filter(
+            Q(username__icontains=query)
+            | Q(first_name__icontains=query)
+            | Q(last_name__icontains=query)
+            | Q(email__icontains=query)
+        )
+        serializer = self.get_serializer(instance, many=True)
+        return Response(serializer.data)
