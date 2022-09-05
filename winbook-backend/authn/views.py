@@ -77,6 +77,8 @@ def signupFunc(request):
 
 
 def forgotPassword(request):
+    print(request.POST)
+
     email = request.POST.get("email", None)
     if email is None:
         return HttpResponse('{"status":"error","message":"email is empty"}', status=401)
