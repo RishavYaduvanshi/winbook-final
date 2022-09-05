@@ -12,6 +12,9 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { InputAdornment } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 function Copyright(props) {
   return (
@@ -26,9 +29,20 @@ function Copyright(props) {
   );
 }
 
+
 const theme = createTheme();
 
 export default function SignUp() {
+
+  const [passwordType, setPasswordType] = React.useState("password");
+  const togglePassword =()=>{
+    if(passwordType==="password")
+    {
+     setPasswordType("text")
+     return;
+    }
+    setPasswordType("password")
+  }
   const history = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -128,9 +142,16 @@ export default function SignUp() {
                   fullWidth
                   name="password"
                   label="Password"
-                  type="password"
+                  type={passwordType}
                   id="password"
                   autoComplete="new-password"
+                  InputProps={{
+                    endAdornment: (
+                        <InputAdornment position="end">
+                           {passwordType==="password"?<VisibilityIcon onClick={togglePassword}/>:<VisibilityOffIcon onClick={togglePassword}/>}
+                            </InputAdornment>
+                    )
+                  }}
                 />
               </Grid>
             </Grid>

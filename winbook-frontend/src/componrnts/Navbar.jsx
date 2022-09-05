@@ -140,13 +140,13 @@ const Navbar = ({ mode, setMode }) => {
           horizontal: 'left',
         }}
       >
-        <MenuItem><Home /> Home</MenuItem>
+        <MenuItem onClick={()=> {history('/home')}}><Home /> Home</MenuItem>
         <MenuItem><Article /> Pages</MenuItem>
         <MenuItem><Group /> Groups</MenuItem>
         <MenuItem><Storefront /> Market</MenuItem>
         <MenuItem><Person /> Friends</MenuItem>
         <MenuItem><Settings /> Settings</MenuItem>
-        <MenuItem><AccountBox /> Profile</MenuItem>
+        <MenuItem onClick={()=>{history('/profile')}}><AccountBox /> Profile</MenuItem>
       </Menu>
     </AppBar>
   )
