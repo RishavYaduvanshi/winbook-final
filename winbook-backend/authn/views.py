@@ -10,6 +10,7 @@ from .serializers import UserSerializer
 from rest_framework.views import Response
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
+from django.db.models import Q
 # Create your views here.
 
 
@@ -74,15 +75,8 @@ class UserViewSet(ModelViewSet):
         if(request.user.is_superuser or request.user.pk == self.get_object().pk):
             return super().destroy(request, *args, **kwargs)
         return Response({"status":"error","message":"you are not allowed to delete this user"},status=401)
-    
-    def retrieve(self, request, *args, **kwargs):
-        print(kwargs)
-        instance = get_object_or_404(User,username=kwargs['pk'])
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
 
     def partial_update(self, request, *args, **kwargs):
-
         if(request.user.is_superuser or request.user.pk == self.get_object().pk):
             partial = True
             instance = get_object_or_404(User,username=kwargs['pk'])
@@ -115,3 +109,19 @@ class UserViewSet(ModelViewSet):
             return Response({"status":"success","message":"cover updated successfully"})
         
         return Response({"status":"error","message":"you are not allowed to update this user"},status=401)
+    
+    @action(detail=False,methods=['get'],url_path=r"f/(?P<username>.+)")
+    def get_by_username(self,request,*args,**kwargs):
+        query = kwargs['username']
+        print(query) 
+        instance = get_object_or_404(User,username=query) 
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    @action(detail=False,methods=['get'],url_path=r"s/(?P<query>.+)")
+    def search(self,request,*args,**kwargs): 
+        query = kwargs['query']
+        print(query) 
+        instance = User.objects.filter(Q(username__icontains=query) | Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(email__icontains=query))
+        serializer = self.get_serializer(instance,many=True)
+        return Response(serializer.data)
