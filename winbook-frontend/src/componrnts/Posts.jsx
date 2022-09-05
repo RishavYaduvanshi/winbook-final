@@ -1,4 +1,3 @@
-import { Checkbox } from '@mui/material'
 import React, { useState } from 'react'
 import PersonIcon from '@mui/icons-material/Person';
 import Card from '@mui/material/Card';
@@ -43,18 +42,16 @@ const Posts = ({ ob }) => {
 
 
   const deletePost = () => {
-    fetch('https://winbookbackend.d3m0n1k.engineer/post/', {
+    setAnchorEl(false);
+    fetch('https://winbookbackend.d3m0n1k.engineer/post/'+ob.pk+'/', {
       method: 'DELETE',
       headers: {
         "Accept": "application/json",
         "Authorization": "Token " + localStorage.getItem('authtoken')
       },
     }).then((response) => {
-      console.log(response);
       if (response.status >= 200 && response.status < 300) {
-        response.json().then((data) => {
-          //console.log(data);
-        })
+        window.location.reload(false);
       }
     })
   }

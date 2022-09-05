@@ -5,7 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -13,12 +12,24 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { NavLink, useNavigate } from 'react-router-dom';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { InputAdornment } from '@mui/material';
 
 
 export const Login = () => {
 
   const theme = createTheme();
   const history = useNavigate();  
+  const [passwordType, setPasswordType] = React.useState("password");
+  const togglePassword =()=>{
+    if(passwordType==="password")
+    {
+     setPasswordType("text")
+     return;
+    }
+    setPasswordType("password")
+  }
   
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -99,9 +110,16 @@ export const Login = () => {
                 fullWidth
                 name="password"
                 label="Password"
-                type="password"
+                type={passwordType}
                 id="password"
                 autoComplete="current-password"
+                InputProps={{
+                  endAdornment: (
+                      <InputAdornment position="end">
+                         {passwordType==="password"?<VisibilityIcon onClick={togglePassword}/>:<VisibilityOffIcon onClick={togglePassword}/>}
+                          </InputAdornment>
+                  )
+                }}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -117,9 +135,9 @@ export const Login = () => {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <NavLink to={'/forgot'} variant="body2">
                     Forgot password?
-                  </Link>
+                  </NavLink>
                 </Grid>
                 <Grid item>
                   <p className='mt-3'>Don't have an account? <span><NavLink to="/signup">Sign Up</NavLink></span></p>

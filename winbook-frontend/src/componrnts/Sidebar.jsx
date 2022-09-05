@@ -72,6 +72,14 @@ const Sidebar = ({mode,setMode}) => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
+            <ListItemButton onClick={()=>{history('/profile')}}>
+              <ListItemIcon>
+                <AccountBox/>
+              </ListItemIcon>
+              <ListItemText primary="Profile" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
                 <Article/>
@@ -109,14 +117,6 @@ const Sidebar = ({mode,setMode}) => {
                 <Settings/>
               </ListItemIcon>
               <ListItemText primary="Settings" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <AccountBox/>
-              </ListItemIcon>
-              <ListItemText primary="Profile" />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
