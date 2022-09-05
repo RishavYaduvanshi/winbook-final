@@ -6,6 +6,6 @@ from django.contrib.auth.models import AbstractUser as _User
 
 class User(_User):
     
-    bio = models.TextField(null=True,blank=True)
+    bio = models.TextField(blank=True,default="Add Bio",null=True)
     dp = models.ImageField(upload_to='dp/',null=True,blank=True)
     cover = models.ImageField(upload_to='covers/',null=True,blank=True)
