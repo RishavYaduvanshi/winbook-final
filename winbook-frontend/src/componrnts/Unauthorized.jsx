@@ -6,7 +6,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import React from 'react';
 import  {useNavigate} from 'react-router-dom';
@@ -46,7 +45,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
                   color: (theme) => theme.palette.grey[500],
                 }}
               >
-                <CloseIcon />
               </IconButton>
             ) : null}
           </DialogTitle>
@@ -84,7 +82,7 @@ const login = () => {
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={login}>
+        <Button color="error" onClick={login}>
           Login
         </Button>
       </DialogActions>

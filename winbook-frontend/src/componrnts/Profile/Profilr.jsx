@@ -2,21 +2,22 @@ import React from 'react'
 import Box from '@mui/material/Box'
 import Navbar from '../Navbar'
 import "./Profile.css";
-import Share from '../share/Share'
 import Sidebar from '../Sidebar';
-import { Stack } from '@mui/material';
+import { Stack, ThemeProvider } from '@mui/material';
 import Profilecontent from './Profilecontent'
-import Feed from '../Feed';
 
-export const Profilr = () => {
+export const Profilr = ({mode,setMode}) => {
+
+
   return (
-    <Box>
-      <Navbar />
+    <ThemeProvider>
+    <Box bgcolor={"background.default"} color={"text.primary"}>
+      <Navbar setMode={setMode} mode={mode}/>
       <Stack direction="row" spacing={1} justifyContent="space-between">
-        <Sidebar/>
+        <Sidebar setMode={setMode} mode={mode}/>
         <Profilecontent/>
       </Stack>
     </Box>
-
+</ThemeProvider>
   )
 }

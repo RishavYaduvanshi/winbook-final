@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { InputAdornment } from '@mui/material';
@@ -29,10 +29,7 @@ function Copyright(props) {
   );
 }
 
-
-const theme = createTheme();
-
-export default function SignUp() {
+export default function SignUp({mode,setMode}) {
 
   const [passwordType, setPasswordType] = React.useState("password");
   const togglePassword =()=>{
@@ -76,7 +73,7 @@ export default function SignUp() {
 
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider >
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

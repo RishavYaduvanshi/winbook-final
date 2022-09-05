@@ -1,22 +1,26 @@
-import { Laptop } from '@mui/icons-material';
-import PersonIcon from '@mui/icons-material/Person';
-import { AppBar, styled, Toolbar, Typography, Box, InputBase, Avatar, Paper, TextField, InputAdornment, Button} from '@mui/material'
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Typography, Box, Paper, TextField, InputAdornment, Button} from '@mui/material'
+import { useSearchParams } from 'react-router-dom';
 import MailIcon from '@mui/icons-material/Mail';
 import KeyIcon from '@mui/icons-material/Key';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
-
-const Forgot = () => {
+import Navbar from './Navbar';
+//https://winbookbackend.d3m0n1k.engineer/forgot/
+const Forgot = ({mode,setMode}) => {
     const [passwordType, setPasswordType] = useState("password");
     const [passwordInput, setPasswordInput] = useState("");
     const [passwordInput1, setPasswordInput1] = useState("");
+    const [emailInput, setEmailInput] = useState("");
+    const [searchParams, setSearchParams] = useSearchParams();
     const handlePasswordChange =(evnt)=>{
         setPasswordInput(evnt.target.value);
     }
     const handlePasswordChange_ =(evnt)=>{
         setPasswordInput1(evnt.target.value);
+    }
+    const emailchange =(evnt)=>{
+        setEmailInput(evnt.target.value);
     }
     const togglePassword =()=>{
         if(passwordType==="password")
@@ -26,58 +30,80 @@ const Forgot = () => {
         }
         setPasswordType("password")
       }
-    const StyledToolBar = styled(Toolbar)({
-        display: "flex",
-        justifyContent: "space-between",
-      });
+      var auth = "null";
 
-      const UserBox = styled(Box)(({ theme }) => ({
-        display: "flex",
-        gap: "10px",
-        alignItems: "center",
-        [theme.breakpoints.up("sm")]: {
-          display: "none",
-        },
-      }));
+      const resetpass = () => {
+        if(passwordInput!==passwordInput1)
+        {
+          alert("Passwords do not match");
+          return;
+        }
+        fetch("https://winbookbackend.d3m0n1k.engineer/forgot/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Token " + localStorage.getItem('authtoken')
+          },
+          body: JSON.stringify({
+            password: passwordInput,
+            token: auth,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.error) {
+              alert(data.error);
+            } else {
+              alert("Password reset successful");
+            }
+          });
+      }
 
-      const Search = styled("div")(({ theme }) => ({
-        backgroundColor: "white",
-        padding: "0 10px",
-        borderRadius: theme.shape.borderRadius,
-        width: "40%"
-      }));
-      var auth = null;
+      const resetp = ()=> {
+        auth = searchParams.get("token");
+        var email = searchParams.get("email");
+        console.log(auth);
+        const fd = new FormData();
+        fd.append("email", (typeof email === "undefined") ? emailInput : email);
+        fd.append("token", auth);
+        if(typeof passwordInput !== "undefined")
+            fd.append("password", passwordInput);
+
+        
+        console.log(fd);
+        
+
+        fetch("https://winbookbackend.d3m0n1k.engineer/forgot/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(fd)
+        }).then((res) => res.json())
+          .then((data) => {
+            if (data.error) {
+              alert(data.error);
+            }
+            else{
+              alert("Confirmation email sent");
+            }
+          });
+      }
 
   return (
     <>
-    <AppBar>
-      <StyledToolBar>
-        <NavLink to={"/"} style={{color:'white',textDecoration:'none'}}><Typography variant='h6' sx={{ display: { xs: "none", sm: "block" } }}>WinBook</Typography></NavLink>
-        <Laptop sx={{ display: { xs: "block", sm: "none" } }} />
-        <Search>
-          <InputBase placeholder='Search...' />
-        </Search>
-        <Avatar sx={{ display: { xs: "none", sm: "block" }, bgcolor: "lightcoral", height: 36, width: 36 }} >
-          <PersonIcon sx={{ height: 32, width: 34 }}></PersonIcon>
-        </Avatar>
-        <UserBox>
-          <Typography variant='span'>Forgot Password</Typography>
-        </UserBox>
-      </StyledToolBar>
-      </AppBar>
+    <Navbar/>
       <Box
       sx={{
-        display: { xs: "block", sm: "flex" },
-        flexWrap: 'wrap',
+        display: {sm:"flex, width:40%",xs:"flex, width:100%"},
         '& > :not(style)': {
           m: 1,
-          width: 500,
-          height: 350,
-          marginTop: 20,
+          height: 'auto',
+          marginTop: '6%',
+          borderRadius: '10px',
         },
       }}
-      alignContent='center'
-        justifyContent='center'
+      justifyContent="center"
       >
       <Paper elevation={12} sx={{
         display: 'flex',
@@ -85,12 +111,12 @@ const Forgot = () => {
         alignItems: 'center',
         flexDirection: 'column',
       }} >
-        <Typography variant='h5' color="primary">Forgot Password</Typography>
+        <Typography variant='h5' color="primary" sx={{marginTop:'5%'}}>Forgot Password</Typography>
         <Box sx={{
             display: 'flex',
             flexDirection: 'column',
-            marginTop: 4,
-            width: 400,
+            marginTop:'10%',
+            width: '80%',
 
         }}>
       {auth!==null?<>
@@ -124,11 +150,11 @@ const Forgot = () => {
       }}
       sx={{marginBottom: 5}}
       />
-      <Button variant="contained" color="primary">
+      <Button variant="contained" color="primary" sx={{marginBottom:7}} onClick={resetpass}>
         Submit
       </Button>
       </>:<>
-      <TextField id="email" name="email" label="Enter your Email" variant="outlined" required fullWidth
+      <TextField id="email" name="email" onChange={emailchange} label="Enter your Email" variant="outlined" required fullWidth
        InputProps={{
         startAdornment: (
           <InputAdornment position="start">
@@ -141,7 +167,9 @@ const Forgot = () => {
         marginBottom: 10,
         fontWeight:300,
       }}>Please provide your registered Email ID !</Typography>
-      <Button variant="contained" color="primary">
+      <Button variant="contained" color="primary" sx={{
+        marginBottom: 7,
+      }} onClick={resetp}>
         Submit
       </Button></>}
       </Box>

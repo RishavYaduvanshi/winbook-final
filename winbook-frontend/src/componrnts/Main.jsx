@@ -4,24 +4,18 @@ import Feed from "./Feed";
 import Navbar from "./Navbar";
 import Rightbar from "./Rightbar";
 import Sidebar from "./Sidebar";
-import { useState } from 'react';
-import { Box, createTheme, Stack, ThemeProvider } from "@mui/material";
+import { Box, Stack, ThemeProvider } from "@mui/material";
 
 
-export const Main = () => {
-    const [mode, setMode] = useState("light");
-    const darkTheme = createTheme({
-      palette: {
-        mode: mode,
-      },
-    });
+export const Main = ({mode,setMode}) => {
+  var theme = localStorage.getItem("theme");
     
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider>
     <Box bgcolor={"background.default"} color={"text.primary"}>
-      <Navbar setMode={setMode} mode={mode}/>
+      <Navbar setMode={setMode} mode={theme}/>
       <Stack direction="row" spacing={2} justifyContent="space-between">
-      <Sidebar setMode={setMode} mode={mode}/>
+      <Sidebar setMode={setMode} mode={theme}/>
         <Feed />
         <Rightbar />
       </Stack>

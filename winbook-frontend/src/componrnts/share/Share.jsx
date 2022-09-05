@@ -1,6 +1,6 @@
 import "./share.css";
 import { PermMedia } from "@mui/icons-material";
-import { Avatar } from "@mui/material";
+import { Avatar, InputBase } from "@mui/material";
 import React, { useState, useEffect } from 'react'
 import Paper from '@mui/material/Paper';
 import Badge from '@mui/material/Badge';
@@ -70,7 +70,7 @@ export default function Share() {
       <div className="shareWrapper">
         <div className="shareTop">
           <Avatar className="shareProfileImg" />
-          <input
+          <InputBase
             placeholder="What's in your mind ?"
             className="shareInput"
             onChange={handlechange}

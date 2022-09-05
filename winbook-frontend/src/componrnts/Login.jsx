@@ -10,16 +10,19 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { NavLink, useNavigate } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { InputAdornment } from '@mui/material';
 
 
-export const Login = () => {
+export const Login = ({mode,setMode}) => {
 
-  const theme = createTheme();
+  React.useEffect(() => {
+    localStorage.setItem("theme", mode);
+  }, [mode]);
+
   const history = useNavigate();  
   const [passwordType, setPasswordType] = React.useState("password");
   const togglePassword =()=>{
@@ -38,7 +41,7 @@ export const Login = () => {
       username: data.get('email'),
       password: data.get('password'),
     });
-    console.log(cred);
+    //console.log(cred);
     fetch('https://winbookbackend.d3m0n1k.engineer/login/', {
       method: 'POST',
       headers: {
@@ -60,7 +63,7 @@ export const Login = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
