@@ -10,19 +10,11 @@ import { PersonAdd } from '@mui/icons-material';
 import { Logout } from '@mui/icons-material';
 
 
+
 const StyledToolBar = styled(Toolbar)({
   display: "flex",
   justifyContent: "space-between",
 });
-
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-
-const Search = styled("div")(({ theme }) => ({
-  backgroundColor: "white",
-  padding: "0 10px",
-  borderRadius: theme.shape.borderRadius,
-  width: "40%"
-}));
 
 const UserBox = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -34,34 +26,58 @@ const UserBox = styled(Box)(({ theme }) => ({
 }));
 
 const Navbar = ({ mode, setMode }) => {
+  const tkn = localStorage.getItem('authtoken')
+  var background = ""; 
   const [Open, setOpen] = useState(false);
   const [open, setOpen1] = useState(false);
   const [text, setText] = useState("Dark Mode")
+  if(mode==="light")
+  {
+    background = "white";
+  }
+  else
+  {
+    background = "#1a1a1a";
+  }
 
   const history = useNavigate();
   const logout = () => {
     localStorage.removeItem('authtoken');
     localStorage.removeItem('user');
+    localStorage.removeItem('id');
     history("/");
   }
   const profile = () => {
     history('/profile');
   }
 
+  const Search = styled("div")(({ theme }) => ({
+    backgroundColor: background,
+    padding: "0 10px",
+    borderRadius: theme.shape.borderRadius,
+    width: "40%"
+  }));
+
 
   return (
-    <AppBar position='sticky'>
+    <AppBar position='sticky' sx={{width:'100%'}}>
       <StyledToolBar>
         <NavLink to={"/home"} style={{color:'white',textDecoration:'none'}}><Typography variant='h6' sx={{ display: { xs: "none", sm: "block" } }}>WinBook</Typography></NavLink>
-        <Laptop sx={{ display: { xs: "block", sm: "none" } }} onClick={() => setOpen1(true)} />
+        <Laptop sx={{ display: { xs: "block", sm: "none" } }} onClick={() => {
+          tkn===null?history('/'):setOpen1(true);
+        }} />
         <Search>
           <InputBase placeholder='Search...' />
         </Search>
-        <Avatar sx={{ display: { xs: "none", sm: "block" }, bgcolor: "lightcoral", height: 36, width: 36 }} onClick={e => setOpen(true)} >
+        <Avatar sx={{ display: { xs: "none", sm: "block" }, bgcolor: "lightcoral", height: 36, width: 36 }} onClick={e => {
+          tkn!==null?setOpen(true):setOpen(false);
+          }} >
           <PersonIcon sx={{ height: 32, width: 34 }}></PersonIcon>
         </Avatar>
-        <UserBox onClick={e => setOpen(true)}>
-          <Typography variant='span'>{localStorage.getItem('user')}</Typography>
+        <UserBox onClick={e => {
+          tkn!==null?setOpen(true):setOpen(false);
+        }}>
+          {tkn===null?<Typography variant='span'>Forgot Password</Typography>:<Typography variant='span'>{localStorage.getItem('user')}</Typography>}
         </UserBox>
       </StyledToolBar>
       <Menu
@@ -122,8 +138,12 @@ const Navbar = ({ mode, setMode }) => {
         <MenuItem>
           <Checkbox
             sx={{ '&.Mui-checked': { color: pink[600] }, }}
-            onChange={e => setMode(mode === "light" ? "dark" : "light")}
-            onClick={() => setText(mode === "light" ? "Dark Mode" : "Light Mode")}
+            onChange={e=>{
+              setMode(mode === "light"? "dark":"light");
+              localStorage.setItem("theme", mode === "light"? "dark":"light");
+              setText(mode === "light" ? "Dark Mode" : "Light Mode");
+            }
+          }
           />
           {text}
         </MenuItem>

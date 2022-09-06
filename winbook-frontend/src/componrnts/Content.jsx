@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import  Unauthorized  from './Unauthorized';
 
 
-export const Content = () => {
+export const Content = ({mode,setMode}) => {
 
   const[logindata,setLogindata] = useState([]);
     const calllogin = () => {
@@ -23,7 +23,7 @@ export const Content = () => {
     {
       logindata.length === 0 ?<Unauthorized/>:
       <>
-      <Main />
+      <Main setMode={setMode} mode={mode}/>
       </>
     }
     </>

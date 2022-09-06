@@ -124,7 +124,13 @@ const Sidebar = ({mode,setMode}) => {
               <ListItemIcon>
                 <ModeNight/>
               </ListItemIcon>
-              <MaterialUISwitch sx={{ m: 1 }} onChange={e=>setMode(mode === "light"? "dark":"light")}/>
+              {mode==='dark'?<MaterialUISwitch sx={{ m: 1 }} defaultChecked onChange={e=>{
+                setMode(mode === "light"? "dark":"light");
+                localStorage.setItem("theme", mode === "light"? "dark":"light");
+                }}/>:<MaterialUISwitch sx={{ m: 1 }} onChange={e=>{
+                  setMode(mode === "light"? "dark":"light");
+                  localStorage.setItem("theme", mode === "light"? "dark":"light");
+                }}/>}
             </ListItemButton>
           </ListItem>
         </List>
