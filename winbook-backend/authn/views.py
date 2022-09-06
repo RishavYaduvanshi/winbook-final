@@ -77,26 +77,49 @@ def signupFunc(request):
 
 
 def forgotPassword(request):
-    print(request.POST)
+    if not request.POST:
+        request.POST = json.loads(request.body)
 
     email = request.POST.get("email", None)
+    token = request.POST.get("token", None)
     if email is None:
         return HttpResponse('{"status":"error","message":"email is empty"}', status=401)
     else:
         user = User.objects.filter(email=email)
         if user.exists():
             user = user[0]
-            send_mail(
-                subject="Reset Password",
-                html_message=forgot_password.gen_forgot_mail(request, user),
-                message="",
-                from_email="no-reply@winbook.gg",
-                fail_silently=False,
-                recipient_list=[user.email],
-            )
-            return HttpResponse(
-                '{"status":"success","message":"email sent"}', status=200
-            )
+            if token is None:
+                send_mail(
+                    subject="Reset Password",
+                    html_message=forgot_password.gen_forgot_mail(request, user),
+                    message="",
+                    from_email="no-reply@winbook.gg",
+                    fail_silently=False,
+                    recipient_list=[user.email],
+                )
+                return HttpResponse(
+                    '{"status":"success","message":"email sent"}', status=200
+                )
+            else:
+                password = request.POST.get("password", None)
+                if password is None:
+                    return HttpResponse(
+                        '{"status":"error","message":"password is empty"}', status=401
+                    )
+
+                if forgot_password.verify_forgot_token(user, token):
+                    user.set_password(password)
+                    user.save()
+                    logoutFromAll = bool(request.POST.get("logout", False))
+                    if logoutFromAll:
+                        Token.objects.filter(user=user).delete()
+                    return HttpResponse(
+                        '{"status":"success","message":"password changed"}', status=200
+                    )
+                else:
+                    return HttpResponse(
+                        '{"status":"error","message":"token is invalid"}', status=401
+                    )
         else:
             return HttpResponse(
                 '{"status":"error","message":"email is invalid"}', status=401

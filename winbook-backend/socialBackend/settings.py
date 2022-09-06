@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-from telnetlib import AUTHENTICATION
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -164,8 +164,11 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "teamd3mon1k@gmail.com"
-EMAIL_HOST_PASSWORD = "qjvuohcoufldkpzq"
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", None)
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", None)
 EMAIL_USE_TLS = True
 
-SITE_URL = "https://winbook.d3m0n1k.engineer/"
+SITE_URL = os.environ.get("SITE_URL", None)
+
+if EMAIL_HOST_USER is None or EMAIL_HOST_PASSWORD is None or SITE_URL is None:
+    print("EMAIL_HOST_USER or EMAIL_HOST_PASSWORD or SITE_URL is not set")
