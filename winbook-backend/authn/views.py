@@ -108,6 +108,7 @@ def forgotPassword(request):
 
                 if forgot_password.verify_forgot_token(user, token):
                     user.set_password(password)
+                    user.save()
                     logoutFromAll = bool(request.POST.get("logout", False))
                     if logoutFromAll:
                         Token.objects.filter(user=user).delete()
