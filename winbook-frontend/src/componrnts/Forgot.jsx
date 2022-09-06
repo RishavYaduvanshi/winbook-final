@@ -8,6 +8,7 @@ import { useState } from 'react';
 import Navbar from './Navbar';
 //https://winbookbackend.d3m0n1k.engineer/forgot/
 const Forgot = ({mode,setMode}) => {
+  var Email="";
     const [passwordType, setPasswordType] = useState("password");
     const [passwordInput, setPasswordInput] = useState("");
     const [passwordInput1, setPasswordInput1] = useState("");
@@ -30,7 +31,7 @@ const Forgot = ({mode,setMode}) => {
         }
         setPasswordType("password")
       }
-      var auth = "null";
+      var auth = null;
 
       const resetpass = () => {
         if(passwordInput!==passwordInput1)
@@ -59,18 +60,15 @@ const Forgot = ({mode,setMode}) => {
           });
       }
 
-      const resetp = ()=> {
+      const resetp = (event)=> {
         auth = searchParams.get("token");
         var email = searchParams.get("email");
-        console.log(auth);
-        const fd = new FormData();
-        fd.append("email", (typeof email === "undefined") ? emailInput : email);
-        fd.append("token", auth);
-        if(typeof passwordInput !== "undefined")
-            fd.append("password", passwordInput);
-
+        if(auth===null || email===null){
+          email = emailInput;
+          auth = null;
+        }
         
-        console.log(fd);
+        console.log(email);
         
 
         fetch("https://winbookbackend.d3m0n1k.engineer/forgot/", {
@@ -78,7 +76,9 @@ const Forgot = ({mode,setMode}) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(fd)
+          body: {
+            email: email,
+          },
         }).then((res) => res.json())
           .then((data) => {
             if (data.error) {

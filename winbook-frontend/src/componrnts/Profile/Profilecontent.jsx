@@ -57,7 +57,7 @@ const Profilecontent = () => {
       if(response.status >= 200 && response.status < 300){
         response.json().then((data) => {
           localStorage.setItem('id',data.id);
-          console.log(data);
+          //console.log(data);
           setbio(data.bio);
         })
       }
