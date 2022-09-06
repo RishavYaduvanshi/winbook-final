@@ -26,6 +26,6 @@ def get_token(user):
     return token.key
 
 
-def verift_forgot_token(user, token):
+def verify_forgot_token(user, token):
     """Verifies the token"""
     return hash_token(get_token(user)) == token
