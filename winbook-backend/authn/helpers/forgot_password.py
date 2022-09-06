@@ -9,7 +9,7 @@ def gen_forgot_mail(request, user):
     return render_to_string(
         "authn/forgot-pass.html",
         context={
-            "RESET_END": "forgot/?token=" + hash_token(get_token(user)),
+            "RESET_END": f"forgot/?token={hash_token(get_token(user))}&email={user.email}",
             "SITE_URL": settings.SITE_URL,
         },
     )

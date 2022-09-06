@@ -80,27 +80,31 @@ def forgotPassword(request):
     print(request.POST)
 
     email = request.POST.get("email", None)
+    token = request.POST.get("token", None)
     if email is None:
         return HttpResponse('{"status":"error","message":"email is empty"}', status=401)
     else:
-        user = User.objects.filter(email=email)
-        if user.exists():
-            user = user[0]
-            send_mail(
-                subject="Reset Password",
-                html_message=forgot_password.gen_forgot_mail(request, user),
-                message="",
-                from_email="no-reply@winbook.gg",
-                fail_silently=False,
-                recipient_list=[user.email],
-            )
-            return HttpResponse(
-                '{"status":"success","message":"email sent"}', status=200
-            )
+        if token is None:
+            user = User.objects.filter(email=email)
+            if user.exists():
+                user = user[0]
+                send_mail(
+                    subject="Reset Password",
+                    html_message=forgot_password.gen_forgot_mail(request, user),
+                    message="",
+                    from_email="no-reply@winbook.gg",
+                    fail_silently=False,
+                    recipient_list=[user.email],
+                )
+                return HttpResponse(
+                    '{"status":"success","message":"email sent"}', status=200
+                )
+            else:
+                return HttpResponse(
+                    '{"status":"error","message":"email is invalid"}', status=401
+                )
         else:
-            return HttpResponse(
-                '{"status":"error","message":"email is invalid"}', status=401
-            )
+            pass
 
 
 class UserViewSet(ModelViewSet):
