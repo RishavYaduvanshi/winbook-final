@@ -84,10 +84,10 @@ def forgotPassword(request):
     if email is None:
         return HttpResponse('{"status":"error","message":"email is empty"}', status=401)
     else:
-        if token is None:
-            user = User.objects.filter(email=email)
-            if user.exists():
-                user = user[0]
+        user = User.objects.filter(email=email)
+        if user.exists():
+            user = user[0]
+            if token is None:
                 send_mail(
                     subject="Reset Password",
                     html_message=forgot_password.gen_forgot_mail(request, user),
@@ -100,28 +100,28 @@ def forgotPassword(request):
                     '{"status":"success","message":"email sent"}', status=200
                 )
             else:
-                return HttpResponse(
-                    '{"status":"error","message":"email is invalid"}', status=401
-                )
-        else:
-            password = request.POST.get("password", None)
-            if password is None:
-                return HttpResponse(
-                    '{"status":"error","message":"password is empty"}', status=401
-                )
+                password = request.POST.get("password", None)
+                if password is None:
+                    return HttpResponse(
+                        '{"status":"error","message":"password is empty"}', status=401
+                    )
 
-            if forgot_password.verify_forgot_token(user, token):
-                user.set_password(password)
-                logoutFromAll = bool(request.POST.get("logout", False))
-                if(logoutFromAll):
-                    Token.objects.filter(user=user).delete()
-                return HttpResponse(
-                    '{"status":"success","message":"password changed"}', status=200
-                )
-            else:
-                return HttpResponse(
-                    '{"status":"error","message":"token is invalid"}', status=401
-                )
+                if forgot_password.verify_forgot_token(user, token):
+                    user.set_password(password)
+                    logoutFromAll = bool(request.POST.get("logout", False))
+                    if logoutFromAll:
+                        Token.objects.filter(user=user).delete()
+                    return HttpResponse(
+                        '{"status":"success","message":"password changed"}', status=200
+                    )
+                else:
+                    return HttpResponse(
+                        '{"status":"error","message":"token is invalid"}', status=401
+                    )
+        else:
+            return HttpResponse(
+                '{"status":"error","message":"email is invalid"}', status=401
+            )
 
 
 class UserViewSet(ModelViewSet):
