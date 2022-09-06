@@ -77,7 +77,8 @@ def signupFunc(request):
 
 
 def forgotPassword(request):
-    print(request.POST)
+    if not request.POST:
+        request.POST = json.loads(request.body)
 
     email = request.POST.get("email", None)
     token = request.POST.get("token", None)
