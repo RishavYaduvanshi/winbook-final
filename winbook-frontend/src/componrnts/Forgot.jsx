@@ -92,7 +92,7 @@ const Forgot = ({mode,setMode}) => {
 
   return (
     <>
-    <Navbar/>
+    <Navbar setMode={setMode} mode={mode}/>
       <Box
       sx={{
         display: {sm:"flex, width:40%",xs:"flex, width:100%"},
