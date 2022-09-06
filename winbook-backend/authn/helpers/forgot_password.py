@@ -24,3 +24,8 @@ def get_token(user):
     """Refreshes the token"""
     token, _ = Token.objects.get_or_create(user=user)
     return token.key
+
+
+def verift_forgot_token(user, token):
+    """Verifies the token"""
+    return hash_token(get_token(user)) == token

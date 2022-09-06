@@ -104,7 +104,24 @@ def forgotPassword(request):
                     '{"status":"error","message":"email is invalid"}', status=401
                 )
         else:
-            pass
+            password = request.POST.get("password", None)
+            if password is None:
+                return HttpResponse(
+                    '{"status":"error","message":"password is empty"}', status=401
+                )
+
+            if forgot_password.verify_forgot_token(user, token):
+                user.set_password(password)
+                logoutFromAll = bool(request.POST.get("logout", False))
+                if(logoutFromAll):
+                    Token.objects.filter(user=user).delete()
+                return HttpResponse(
+                    '{"status":"success","message":"password changed"}', status=200
+                )
+            else:
+                return HttpResponse(
+                    '{"status":"error","message":"token is invalid"}', status=401
+                )
 
 
 class UserViewSet(ModelViewSet):
