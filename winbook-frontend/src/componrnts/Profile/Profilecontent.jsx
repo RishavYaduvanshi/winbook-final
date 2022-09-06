@@ -100,7 +100,7 @@ const Profilecontent = () => {
   aria-labelledby="modal-modal-title"
   aria-describedby="modal-modal-description"
 >
-<Box component='form' bgcolor={"background.default"} color={"text.primary"} height={250} p={3} borderRadius={5} width={400} onSubmit={addbio}>
+<Box component='form' height={250} p={3} borderRadius={5} width={400} onSubmit={addbio}>
 <Typography variant='h6' color="gray" textAlign="center" marginBottom={5}>Update Bio</Typography>
 <TextField
           id="standard-multiline-static"
