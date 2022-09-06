@@ -24,4 +24,4 @@ services:
     volumes:
       - ./winbook-frontend/:/usr/src/app/
     
-    command: npm run start --omit=dev
+    command: npm run serve
