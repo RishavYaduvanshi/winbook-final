@@ -11,17 +11,16 @@ services:
 
     volumes:
       - ./winbook-backend/:/app/backend/
-    
-    # env_file:
-    # - .env
+
+    env_file:
+      - .env
 
   frontend:
-
-    build : ./winbook-frontend
+    build: ./winbook-frontend
     image: winbook-frontend
     ports:
       - "3000:3000"
     volumes:
       - ./winbook-frontend/:/usr/src/app/
-    
+
     command: npm run serve
