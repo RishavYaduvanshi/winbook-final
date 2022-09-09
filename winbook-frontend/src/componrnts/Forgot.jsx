@@ -1,5 +1,4 @@
 import { Typography, Box, Paper, TextField, InputAdornment, Button, Card} from '@mui/material'
-import { useSearchParams } from 'react-router-dom';
 import MailIcon from '@mui/icons-material/Mail';
 import KeyIcon from '@mui/icons-material/Key';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -7,13 +6,13 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
 import Navbar from './Navbar';
 //https://winbookbackend.d3m0n1k.engineer/forgot/
-const Forgot = ({mode,setMode}) => {
-  var Email="";
+const Forgot = ({mode,setMode,auth,eml}) => {
+  console.log(eml);
+  console.log(auth);
     const [passwordType, setPasswordType] = useState("password");
     const [passwordInput, setPasswordInput] = useState("");
     const [passwordInput1, setPasswordInput1] = useState("");
     const [emailInput, setEmailInput] = useState("");
-    const [searchParams, setSearchParams] = useSearchParams();
     const handlePasswordChange =(evnt)=>{
         setPasswordInput(evnt.target.value);
     }
@@ -31,7 +30,6 @@ const Forgot = ({mode,setMode}) => {
         }
         setPasswordType("password")
       }
-      var auth = null;
 
       const resetpass = () => {
         if(passwordInput!==passwordInput1)
@@ -61,14 +59,12 @@ const Forgot = ({mode,setMode}) => {
       }
 
       const resetp = (event)=> {
-        auth = searchParams.get("token");
-        var email = searchParams.get("email");
-        if(auth===null || email===null){
-          email = emailInput;
+        if(auth===null || eml===null){
+          eml = emailInput;
           auth = null;
         }
         
-        console.log(email);
+        //console.log(eml);
         
 
         fetch("https://winbookbackend.d3m0n1k.engineer/forgot/", {
@@ -77,7 +73,7 @@ const Forgot = ({mode,setMode}) => {
             "Content-Type": "application/json",
           },
           body: {
-            email: email,
+            email: eml,
           },
         }).then((res) => res.json())
           .then((data) => {
@@ -119,7 +115,7 @@ const Forgot = ({mode,setMode}) => {
             width: '80%',
 
         }}>
-      {auth!==null?<>
+      {typeof auth!=='undefined'?<>
         <TextField type={passwordType} id="password" name="password" onChange={handlePasswordChange_} label="New Password" variant="outlined" required fullWidth
        InputProps={{
         startAdornment: (
