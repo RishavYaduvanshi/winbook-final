@@ -73,7 +73,6 @@ export default function SignUp({mode,setMode}) {
 
 
   return (
-    <ThemeProvider >
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -169,6 +168,5 @@ export default function SignUp({mode,setMode}) {
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
-    </ThemeProvider>
   );
 }

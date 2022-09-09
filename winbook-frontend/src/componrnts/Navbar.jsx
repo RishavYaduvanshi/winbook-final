@@ -135,18 +135,6 @@ const Navbar = ({ mode, setMode }) => {
           </ListItemIcon>
           Logout
         </MenuItem>
-        <MenuItem>
-          <Checkbox
-            sx={{ '&.Mui-checked': { color: pink[600] }, }}
-            onChange={e=>{
-              setMode(mode === "light"? "dark":"light");
-              localStorage.setItem("theme", mode === "light"? "dark":"light");
-              setText(mode === "light" ? "Dark Mode" : "Light Mode");
-            }
-          }
-          />
-          {text}
-        </MenuItem>
       </Menu>
       <Menu sx={{ display: { xs: "block", sm: "none" } }}
         open={open}

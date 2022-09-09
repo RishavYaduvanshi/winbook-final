@@ -1,4 +1,4 @@
-import { Typography, Box, Paper, TextField, InputAdornment, Button} from '@mui/material'
+import { Typography, Box, Paper, TextField, InputAdornment, Button, Card} from '@mui/material'
 import { useSearchParams } from 'react-router-dom';
 import MailIcon from '@mui/icons-material/Mail';
 import KeyIcon from '@mui/icons-material/Key';
@@ -105,7 +105,7 @@ const Forgot = ({mode,setMode}) => {
       }}
       justifyContent="center"
       >
-      <Paper elevation={12} sx={{
+      <Card elevation={12} sx={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -173,7 +173,7 @@ const Forgot = ({mode,setMode}) => {
         Submit
       </Button></>}
       </Box>
-      </Paper>
+      </Card>
       </Box>
       </>
       

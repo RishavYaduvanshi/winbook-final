@@ -63,7 +63,6 @@ export const Login = ({mode,setMode}) => {
   };
 
   return (
-    <ThemeProvider>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -150,7 +149,6 @@ export const Login = ({mode,setMode}) => {
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
   )
 }
 export default Login

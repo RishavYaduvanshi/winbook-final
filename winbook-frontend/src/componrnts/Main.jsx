@@ -11,7 +11,6 @@ export const Main = ({mode,setMode}) => {
   var theme = localStorage.getItem("theme");
     
   return (
-    <ThemeProvider>
     <Box bgcolor={"background.default"} color={"text.primary"}>
       <Navbar setMode={setMode} mode={theme}/>
       <Stack direction="row" spacing={2} justifyContent="space-between">
@@ -21,6 +20,5 @@ export const Main = ({mode,setMode}) => {
       </Stack>
       <Add/>
     </Box>
-    </ThemeProvider>
   )
 }

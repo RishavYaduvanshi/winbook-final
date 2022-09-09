@@ -10,7 +10,6 @@ export const Profilr = ({mode,setMode}) => {
 
 
   return (
-    <ThemeProvider>
     <Box bgcolor={"background.default"} color={"text.primary"}>
       <Navbar setMode={setMode} mode={mode}/>
       <Stack direction="row" spacing={1} justifyContent="space-between">
@@ -18,6 +17,5 @@ export const Profilr = ({mode,setMode}) => {
         <Profilecontent/>
       </Stack>
     </Box>
-</ThemeProvider>
   )
 }
