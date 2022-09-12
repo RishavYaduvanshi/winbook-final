@@ -34,7 +34,7 @@ function App() {
 
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    // <ThemeProvider theme={darkTheme}>
     <Routes>
       <Route path="/profile" element={<Profilr setMode={setMode} mode={mode} />} />
       <Route path="*" element={<NotFound />} />
@@ -43,7 +43,7 @@ function App() {
       <Route path="/signup" element={<SignUp setMode={setMode} mode={mode}/>} />
       <Route path="/home" element={<Content setMode={setMode} mode={mode}/>} />
     </Routes>
-    </ThemeProvider>
+    // </ThemeProvider>
   );
 }
 
