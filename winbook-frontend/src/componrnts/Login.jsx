@@ -17,15 +17,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { InputAdornment } from '@mui/material';
 
 
-export const Login = () => {
-
-  const [mode, setMode] = React.useState(localStorage.getItem("theme"));
-
-  const darkTheme = createTheme({
-    palette: {
-      mode: mode,
-    },
-  });
+export const Login = ({mode,setMode}) => {
 
   React.useEffect(() => {
     localStorage.setItem("theme", mode);
