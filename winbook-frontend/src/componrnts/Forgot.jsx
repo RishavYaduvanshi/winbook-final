@@ -1,11 +1,10 @@
-import { Typography, Box, Paper, TextField, InputAdornment, Button, Card} from '@mui/material'
+import { Typography, Box, TextField, InputAdornment, Button, Card} from '@mui/material'
 import MailIcon from '@mui/icons-material/Mail';
 import KeyIcon from '@mui/icons-material/Key';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
 import Navbar from './Navbar';
-//https://winbookbackend.d3m0n1k.engineer/forgot/
 const Forgot = ({mode,setMode,auth,eml}) => {
   console.log(eml);
   console.log(auth);
@@ -89,13 +88,100 @@ const Forgot = ({mode,setMode,auth,eml}) => {
   return (
     <>
     <Navbar setMode={setMode} mode={mode}/>
+{/* Desktop Display */}
+    <Box
+      sx={{
+        display: {sm:"flex",xs:"none"},
+        '& > :not(style)': {
+          m: 1,
+          height: '60vh',
+          width: '50%',
+          marginTop: '6%',
+          borderRadius: '10px',
+        },
+      }}
+      justifyContent="center"
+      justifyItems="center"
+      >
+      <Card elevation={12} sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+      }} >
+        <Typography variant='h5' color="primary" sx={{marginTop:'5%'}}>Forgot Password</Typography>
+        <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            marginTop:'10%',
+            width: '70%',
+
+        }}>
+      {typeof auth!=='undefined'?<>
+        <TextField type={passwordType} id="password" name="password" onChange={handlePasswordChange_} label="New Password" variant="outlined" required fullWidth
+       InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <KeyIcon />
+          </InputAdornment>
+        ),
+        endAdornment: (
+            <InputAdornment position="end">
+               {passwordType==="password"?<VisibilityIcon onClick={togglePassword}/>:<VisibilityOffIcon onClick={togglePassword}/>}
+                </InputAdornment>
+        )
+      }}
+      sx={{marginBottom: 2}}
+      />
+      <TextField type={passwordType} id="cnfpassword" onChange={handlePasswordChange} name="cnfpassword" label="Confirm Password Password" variant="outlined" required fullWidth
+       InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <KeyIcon />
+          </InputAdornment>
+        ),
+        endAdornment: (
+            <InputAdornment position="end">
+               {passwordType==="password"?<VisibilityIcon onClick={togglePassword}/>:<VisibilityOffIcon onClick={togglePassword}/>}
+                </InputAdornment>
+        )
+      }}
+      sx={{marginBottom: 5}}
+      />
+      <Button variant="contained" color="primary" sx={{marginBottom:7}} onClick={resetpass}>
+        Change Password
+      </Button>
+      </>:<>
+      <TextField id="email" name="email" onChange={emailchange} label="Enter your Email" variant="outlined" required fullWidth
+       InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <MailIcon />
+          </InputAdornment>
+        ),
+      }}
+      />
+      <Typography sx={{
+        marginBottom: 10,
+        fontWeight:300,
+      }}>Please provide your registered Email ID !</Typography>
+      <Button variant="contained" color="primary" sx={{
+        marginBottom: 7,
+      }} onClick={resetp}>
+        Submit
+      </Button></>}
+      </Box>
+      </Card>
+      </Box>
+
+{/* Mobile Display */}
       <Box
       sx={{
-        display: {sm:"flex, width:40%",xs:"flex, width:100%"},
+        display: {sm:"none",xs:"block"},
         '& > :not(style)': {
           m: 1,
           height: 'auto',
-          marginTop: '6%',
+          marginTop: '20%',
           borderRadius: '10px',
         },
       }}
@@ -147,7 +233,7 @@ const Forgot = ({mode,setMode,auth,eml}) => {
       sx={{marginBottom: 5}}
       />
       <Button variant="contained" color="primary" sx={{marginBottom:7}} onClick={resetpass}>
-        Submit
+        Change Password
       </Button>
       </>:<>
       <TextField id="email" name="email" onChange={emailchange} label="Enter your Email" variant="outlined" required fullWidth

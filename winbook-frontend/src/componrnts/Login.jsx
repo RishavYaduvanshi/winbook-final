@@ -18,6 +18,7 @@ import { InputAdornment } from '@mui/material';
 
 
 export const Login = ({mode,setMode}) => {
+  document.title="Winbook";
 
   React.useEffect(() => {
     localStorage.setItem("theme", mode);

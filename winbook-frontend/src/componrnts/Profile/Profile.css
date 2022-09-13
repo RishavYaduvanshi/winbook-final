@@ -70,3 +70,12 @@
 .profileRightBottom{
     display: flex;
 }
+
+.navlink{
+    color: "black";
+    text-decoration: none;
+}
+
+.point{
+    cursor: cursor;
+}

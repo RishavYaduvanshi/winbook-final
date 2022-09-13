@@ -9,6 +9,7 @@ import { Box, Stack, ThemeProvider } from "@mui/material";
 
 export const Main = ({mode,setMode}) => {
   var theme = localStorage.getItem("theme");
+  document.title = "Winbook | Home";
     
   return (
     <Box bgcolor={"background.default"} color={"text.primary"}>

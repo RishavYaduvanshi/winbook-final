@@ -7,7 +7,7 @@ import { Stack, ThemeProvider } from '@mui/material';
 import Profilecontent from './Profilecontent'
 
 export const Profilr = ({mode,setMode}) => {
-
+document.title = "Winbook | Profile";
 
   return (
     <Box bgcolor={"background.default"} color={"text.primary"}>
