@@ -10,14 +10,22 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { NavLink, useNavigate } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { InputAdornment } from '@mui/material';
 
 
-export const Login = ({mode,setMode}) => {
+export const Login = () => {
+
+  const [mode, setMode] = React.useState(localStorage.getItem("theme"));
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: mode,
+    },
+  });
 
   React.useEffect(() => {
     localStorage.setItem("theme", mode);

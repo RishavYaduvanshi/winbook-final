@@ -14,7 +14,7 @@ export const Profilr = ({mode,setMode}) => {
       <Navbar setMode={setMode} mode={mode}/>
       <Stack direction="row" spacing={1} justifyContent="space-between">
         <Sidebar setMode={setMode} mode={mode}/>
-        <Profilecontent/>
+        <Profilecontent setMode={setMode} mode={mode}/>
       </Stack>
     </Box>
   )
