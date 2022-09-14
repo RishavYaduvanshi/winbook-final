@@ -15,6 +15,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { InputAdornment } from '@mui/material';
+import { AlertContainer, alert } from 'react-custom-alert';
+import 'react-custom-alert/dist/index.css'; 
 
 
 export const Login = ({mode,setMode}) => {
@@ -55,9 +57,10 @@ export const Login = ({mode,setMode}) => {
         localStorage.setItem("user",data.get('email'));
         if(resp.token){
         history('/home');
+        alert({ message: 'Logged In ! Welcome', type: 'info' });
         }
         else{
-          alert("invalid credentials")
+          alert({ message: 'Invalid Credentials', type: 'error' });
         }
       })
     })  

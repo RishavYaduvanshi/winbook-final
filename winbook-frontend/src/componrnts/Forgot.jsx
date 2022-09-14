@@ -6,6 +6,8 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useEffect,useState } from 'react';
 import Navbar from './Navbar';
 import { useSearchParams } from 'react-router-dom';
+import { AlertContainer, alert } from 'react-custom-alert';
+import 'react-custom-alert/dist/index.css';
 
 const Forgot = ({ mode, setMode }) => {
   document.title = "Winbook | Forgot Password";
@@ -42,7 +44,7 @@ const Forgot = ({ mode, setMode }) => {
   }
   const resetpass = () => {
     if (passwordInput !== passwordInput1) {
-      alert("Passwords do not match");
+      alert({ message: 'Passwords do not match', type: 'warning' });
       return;
     }
     fetch("https://winbookbackend.d3m0n1k.engineer/forgot/", {
@@ -60,9 +62,9 @@ const Forgot = ({ mode, setMode }) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
-          alert(data.error);
+          alert({ message: data.error, type: 'error' });
         } else {
-          alert("Password reset successful");
+          alert({ message: 'Password reset successful', type: 'success' });
           window.location.href = "/";
         }
       });
@@ -80,10 +82,12 @@ const Forgot = ({ mode, setMode }) => {
     }).then((res) => res.json())
       .then((data) => {
         if (data.error) {
-          alert(data.error);
+          alert({ message: data.error, type: 'error' });
+
         }
         else {
-          alert("Confirmation email sent");
+          alert({ message: 'Confirmation email sent', type: 'success' });
+
         }
       });
   }

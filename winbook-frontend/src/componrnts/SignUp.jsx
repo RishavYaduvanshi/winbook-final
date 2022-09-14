@@ -14,6 +14,8 @@ import { InputAdornment } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import './Profile/Profile.css';
+import { AlertContainer, alert } from 'react-custom-alert';
+import 'react-custom-alert/dist/index.css';
 
 function Copyright(props) {
   return (
@@ -58,12 +60,11 @@ export default function SignUp({mode,setMode}) {
       })
     }).then((response) => {
       if(response.status >= 200 && response.status < 300){
-
-        alert("Successfully Signed Up");
+        alert({ message: 'Successfully Signed Up', type: 'success' });
         history('/');
       }
       else{
-        alert('Sorrrrrry !!!! Un-authenticated User !!!!!')
+        alert({ message: 'Something wrong happened you are not registered. Try Again!', type: 'error' });
       }
       
     });

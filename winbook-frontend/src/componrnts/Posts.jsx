@@ -13,7 +13,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import { Divider } from '@mui/material';
 import { Menu, MenuItem } from '@mui/material';
-
+import { AlertContainer, alert } from 'react-custom-alert';
+import 'react-custom-alert/dist/index.css';
 const Posts = ({ ob }) => {
 
 
@@ -52,6 +53,7 @@ const Posts = ({ ob }) => {
     }).then((response) => {
       if (response.status >= 200 && response.status < 300) {
         window.location.reload(false);
+        alert({message:'Post deleted',type:'warning'});
       }
     })
   }

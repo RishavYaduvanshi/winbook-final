@@ -8,6 +8,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { Divider, ListItemIcon } from '@mui/material';
 import { PersonAdd } from '@mui/icons-material';
 import { Logout } from '@mui/icons-material';
+import { AlertContainer, alert } from 'react-custom-alert';
+import 'react-custom-alert/dist/index.css';
 
 
 
@@ -46,6 +48,7 @@ const Navbar = ({ mode, setMode }) => {
     localStorage.removeItem('user');
     localStorage.removeItem('id');
     history("/");
+    alert({message:'Logged Out!', type:'info'})
   }
   const profile = () => {
     history('/profile');

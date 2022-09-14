@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import { AlertContainer, alert } from 'react-custom-alert';
+import 'react-custom-alert/dist/index.css'; 
 import {
   BrowserRouter as Router,
 } from "react-router-dom";
@@ -9,6 +11,7 @@ localStorage.setItem("theme","light");
 root.render(
   <Router>
     <App />
+    <AlertContainer floatingTime={3000} />
   </Router>
 
 );

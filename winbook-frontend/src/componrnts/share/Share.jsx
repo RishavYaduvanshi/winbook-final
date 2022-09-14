@@ -5,6 +5,8 @@ import React, { useState, useEffect } from 'react'
 import Paper from '@mui/material/Paper';
 import Badge from '@mui/material/Badge';
 import { useNavigate } from "react-router-dom";
+import { AlertContainer, alert } from 'react-custom-alert';
+import 'react-custom-alert/dist/index.css';
 
 export default function Share() {
   const history = useNavigate();
@@ -56,11 +58,11 @@ export default function Share() {
     
     }).then((response) =>{
       if(response.status >= 200 && response.status < 300){
-      alert('Post created successfully');
+      alert({ message: 'Post created successfully', type: 'success' });
       history('/home')
       }
       else{
-        alert('Something went wrong! Please try again');
+        alert({ message: 'Something went wrong! Please try again', type: 'error' });
       }
     })
   }

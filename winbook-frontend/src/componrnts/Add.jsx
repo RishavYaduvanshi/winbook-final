@@ -6,6 +6,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import { Image } from '@mui/icons-material';
 import Paper from '@mui/material/Paper';
 import Badge from '@mui/material/Badge';
+import { AlertContainer, alert } from 'react-custom-alert';
+import 'react-custom-alert/dist/index.css'; 
 
 const Styledmodal = styled(Modal)({
   display:"flex",
@@ -76,11 +78,11 @@ const createpost = () => {
     }).then((response) =>{
       if(response.status >= 200 && response.status < 300){
       setOpen(false);
-      alert('Post created successfully');
+      alert({ message: 'Post created successfully', type: 'success' });
       window.location.reload(false);
       }
       else{
-        alert('Something went wrong! Please try again');
+        alert({ message: 'Something went wrong! Please try again', type: 'error' });
       }
     })
   }
