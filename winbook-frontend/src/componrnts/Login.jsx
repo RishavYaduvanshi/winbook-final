@@ -10,12 +10,11 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { NavLink, useNavigate } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { InputAdornment } from '@mui/material';
-import { AlertContainer, alert } from 'react-custom-alert';
+import { alert } from 'react-custom-alert';
 import 'react-custom-alert/dist/index.css'; 
 
 

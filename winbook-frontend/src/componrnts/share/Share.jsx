@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react'
 import Paper from '@mui/material/Paper';
 import Badge from '@mui/material/Badge';
 import { useNavigate } from "react-router-dom";
-import { AlertContainer, alert } from 'react-custom-alert';
+import { alert } from 'react-custom-alert';
 import 'react-custom-alert/dist/index.css';
 
 export default function Share() {

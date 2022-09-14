@@ -1,14 +1,13 @@
 import { Laptop } from '@mui/icons-material';
 import PersonIcon from '@mui/icons-material/Person';
-import { AppBar, styled, Toolbar, Typography, Box, InputBase, Avatar, Menu, MenuItem, Checkbox } from '@mui/material'
+import { AppBar, styled, Toolbar, Typography, Box, InputBase, Avatar, Menu, MenuItem } from '@mui/material'
 import { AccountBox, Article, Group, Home, Person, Settings, Storefront } from '@mui/icons-material'
-import { pink } from '@mui/material/colors';
 import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Divider, ListItemIcon } from '@mui/material';
 import { PersonAdd } from '@mui/icons-material';
 import { Logout } from '@mui/icons-material';
-import { AlertContainer, alert } from 'react-custom-alert';
+import { alert } from 'react-custom-alert';
 import 'react-custom-alert/dist/index.css';
 
 
@@ -32,7 +31,6 @@ const Navbar = ({ mode, setMode }) => {
   var background = ""; 
   const [Open, setOpen] = useState(false);
   const [open, setOpen1] = useState(false);
-  const [text, setText] = useState("Dark Mode")
   if(mode==="light")
   {
     background = "white";

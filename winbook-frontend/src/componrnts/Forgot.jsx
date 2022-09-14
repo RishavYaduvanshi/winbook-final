@@ -3,15 +3,15 @@ import MailIcon from '@mui/icons-material/Mail';
 import KeyIcon from '@mui/icons-material/Key';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { useEffect,useState } from 'react';
+import { useState } from 'react';
 import Navbar from './Navbar';
 import { useSearchParams } from 'react-router-dom';
-import { AlertContainer, alert } from 'react-custom-alert';
+import { alert } from 'react-custom-alert';
 import 'react-custom-alert/dist/index.css';
 
 const Forgot = ({ mode, setMode }) => {
   document.title = "Winbook | Forgot Password";
-  var auth,eml,a,b;
+  var auth,eml;
   const [passwordType, setPasswordType] = useState("password");
   const [passwordInput, setPasswordInput] = useState("");
   const [passwordInput1, setPasswordInput1] = useState("");

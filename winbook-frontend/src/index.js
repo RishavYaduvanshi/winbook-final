@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { AlertContainer, alert } from 'react-custom-alert';
+import { AlertContainer} from 'react-custom-alert';
 import 'react-custom-alert/dist/index.css'; 
 import {
   BrowserRouter as Router,

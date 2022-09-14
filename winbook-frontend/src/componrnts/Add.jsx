@@ -6,7 +6,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { Image } from '@mui/icons-material';
 import Paper from '@mui/material/Paper';
 import Badge from '@mui/material/Badge';
-import { AlertContainer, alert } from 'react-custom-alert';
+import { alert } from 'react-custom-alert';
 import 'react-custom-alert/dist/index.css'; 
 
 const Styledmodal = styled(Modal)({

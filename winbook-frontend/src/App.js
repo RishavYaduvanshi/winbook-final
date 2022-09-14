@@ -13,8 +13,6 @@ import {
 
 
 function App() {
-
-  var auth,email;
   const [mode, setMode] = useState(localStorage.getItem("theme"));
   const darkTheme = createTheme({
     palette: {

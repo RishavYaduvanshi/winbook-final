@@ -13,7 +13,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import { Divider } from '@mui/material';
 import { Menu, MenuItem } from '@mui/material';
-import { AlertContainer, alert } from 'react-custom-alert';
+import { alert } from 'react-custom-alert';
 import 'react-custom-alert/dist/index.css';
 const Posts = ({ ob }) => {
 
@@ -37,9 +37,6 @@ const Posts = ({ ob }) => {
   const [status, setstatus] = useState((typeof ob !== 'undefined') ? ob.likedStatus : false);
 
   if (typeof ob === 'undefined') return null;
-
-  var like_count = ob.liked_cnt;
-  var like_status = ob.likedStatus;
 
 
   const deletePost = () => {
@@ -66,10 +63,10 @@ const Posts = ({ ob }) => {
         "Authorization": "Token " + localStorage.getItem('authtoken')
       },
     }).then((response) => {
-      console.log(response);
+      //console.log(response);
       if (response.status >= 200 && response.status < 300) {
         response.json().then((data) => {
-          console.log(data);
+         // console.log(data);
           setlike(data.likes_count);
           setstatus(data.hasOwnProperty('liked_status') ? data.liked_status : true);
         })

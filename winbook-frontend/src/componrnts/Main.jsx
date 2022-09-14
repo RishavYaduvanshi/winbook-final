@@ -4,7 +4,7 @@ import Feed from "./Feed";
 import Navbar from "./Navbar";
 import Rightbar from "./Rightbar";
 import Sidebar from "./Sidebar";
-import { Box, Stack, ThemeProvider } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 
 
 export const Main = ({mode,setMode}) => {

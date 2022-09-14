@@ -1,4 +1,4 @@
-import { Box, Button, Paper } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import React,{useState, useEffect} from 'react'
 import Share from '../share/Share'
 import {Modal, styled, Typography, TextField, ButtonGroup} from '@mui/material';
@@ -10,7 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import Badge from '@mui/material/Badge';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 //https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png
-import { AlertContainer, alert } from 'react-custom-alert';
+import { alert } from 'react-custom-alert';
 import 'react-custom-alert/dist/index.css'; 
 
 const Profilecontent = () => {
@@ -93,6 +93,7 @@ const Profilecontent = () => {
       if(response.status >= 200 && response.status < 300){
       response.json().then((data) => {
         alert({ message: 'Profile Picture Updated', type: 'success' });
+        window.location.reload();
         setOpen1(false);
         setPreview(null);
         })
