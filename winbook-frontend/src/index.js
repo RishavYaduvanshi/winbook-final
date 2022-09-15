@@ -7,7 +7,10 @@ import {
   BrowserRouter as Router,
 } from "react-router-dom";
 const root = ReactDOM.createRoot(document.getElementById('root'));
-localStorage.setItem("theme","light");
+if(localStorage.getItem('theme') === null){
+  localStorage.setItem("theme","light");
+}
+
 root.render(
   <Router>
     <App />
