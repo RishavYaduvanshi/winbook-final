@@ -8,7 +8,9 @@ from django.contrib.auth.models import AbstractUser as _User
 class User(_User):
 
     bio = models.TextField(blank=True, default="Add Bio", null=True)
-    dp = models.ImageField(upload_to="dp/", blank=True, default="/static/authn/dp.png")
+    dp = models.ImageField(
+        upload_to="dp/", blank=True, default="../static/authn/dp.png"
+    )
     cover = models.ImageField(
-        upload_to="covers/", blank=True, default="/static/authn/cover.png"
+        upload_to="covers/", blank=True, default="../static/authn/cover.png"
     )
