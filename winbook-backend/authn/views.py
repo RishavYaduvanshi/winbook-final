@@ -168,8 +168,14 @@ class UserViewSet(ModelViewSet):
             status=401,
         )
 
-    @action(detail=True, methods=["post"])
+    @action(detail=True, methods=["post", "delete"])
     def update_dp(self, request, *args, **kwargs):
+        if request.method.lower() == "delete":
+            user = self.get_object()
+            user.dp = "../static/authn/dp.png"
+            user.save()
+            return Response({"status": "success", "message": "dp deleted"})
+
         pk = kwargs["pk"]
         if request.user.is_superuser or request.user.pk == self.get_object().pk:
             instance = get_object_or_404(User, pk=pk)
@@ -182,8 +188,14 @@ class UserViewSet(ModelViewSet):
             status=401,
         )
 
-    @action(detail=True, methods=["post"])
+    @action(detail=True, methods=["post", "delete"])
     def update_cover(self, request, *args, **kwargs):
+        if request.method.lower() == "delete":
+            user = self.get_object()
+            user.cover = "../static/authn/cover.png"
+            user.save()
+            return Response({"status": "success", "message": "cover deleted"})
+
         pk = kwargs["pk"]
         if request.user.is_superuser or request.user.pk == self.get_object().pk:
             instance = get_object_or_404(User, pk=pk)
