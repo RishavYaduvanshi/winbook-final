@@ -1,11 +1,9 @@
-import React, { useState } from 'react'
-import PersonIcon from '@mui/icons-material/Person';
+import React, { useEffect,useState } from 'react'
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ShareIcon from '@mui/icons-material/Share';
@@ -16,7 +14,26 @@ import { Menu, MenuItem } from '@mui/material';
 import { alert } from 'react-custom-alert';
 import 'react-custom-alert/dist/index.css';
 const Posts = ({ ob }) => {
+  const [profilephoto,setprofilephoto] = useState();
 
+  useEffect(() => {
+    if(typeof ob!== 'undefined'){
+    fetch('https://winbookbackend.d3m0n1k.engineer/user/f/'+ob.userName+'/',{
+      method: 'GET',
+      headers: {
+        "Accept": "application/json",
+        "Authorization": "Token " + localStorage.getItem('authtoken')
+      },
+    }).then((response) => {
+      if(response.status >= 200 && response.status < 300){
+        response.json().then((data) => {
+          localStorage.setItem('id',data.id);
+          setprofilephoto(data.dp);
+        })
+      }
+    })
+  
+}}, []);
 
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, '0');
@@ -77,19 +94,17 @@ const Posts = ({ ob }) => {
   return (
     <Card sx={{ margin: 0.5 }}>
       <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: "lightcoral" }} aria-label="recipe">
-            <PersonIcon />
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon onClick={handleClick} />
-          </IconButton>
-        }
-        title={ob.userName}
-        subheader={ob.updated_at.split("T")[0]}
-      />
+      avatar={
+        <img src={profilephoto} alt="profile pic" style={{ width: 40, height: 40, borderRadius: 20 }} />
+      }
+      action={
+        <IconButton aria-label="settings">
+          <MoreVertIcon onClick={handleClick} />
+        </IconButton>
+      }
+      title={ob.userName}
+      subheader={ob.updated_at.split("T")[0]}
+    />
       <CardMedia
         component="img"
         height="20%"
