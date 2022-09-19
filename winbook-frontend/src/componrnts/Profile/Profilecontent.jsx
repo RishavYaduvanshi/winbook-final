@@ -14,8 +14,9 @@ import { alert } from 'react-custom-alert';
 import 'react-custom-alert/dist/index.css';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Profilefeed from './Profilefeed';
 
-const Profilecontent = () => {
+const Profilecontent = (props) => {
   var s = "";
   const Styledmodal = styled(Modal)({
     display: "flex",
@@ -23,6 +24,11 @@ const Profilecontent = () => {
     justifyContent: "center"
   });
 
+  const UserBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    gap: "100px",
+    alignItems: "center",
+  }));
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const Open = Boolean(anchorEl);
@@ -39,8 +45,40 @@ const Profilecontent = () => {
   const [open2, setOpen2] = useState(false);
   const [image, setImage] = useState();
   const [preview, setPreview] = useState();
-  const [profilephoto, setprofilephoto] = useState();
-  const [coverphoto, setcoverphoto] = useState();
+  var [profilephoto, setprofilephoto] = useState();
+  var [coverphoto, setcoverphoto] = useState();
+  const [name, setname] = useState("");
+  const [id, setid] = useState();
+
+
+  // if(localStorage.getItem('user') === name){
+  //   coverphoto=usercoverphoto;
+  //   profilephoto=userprofilephoto;
+  // }
+
+  useEffect(() => {
+    setprofilephoto(profilePic);
+    setcoverphoto(coverPic);
+    fetch('https://winbookbackend.d3m0n1k.engineer/user/f/' + props.name + '/', {
+      method: 'GET',
+      headers: {
+        "Accept": "application/json",
+        "Authorization": "Token " + localStorage.getItem('authtoken')
+      },
+    }).then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        response.json().then((data) => {
+          //console.log(data.id);
+          setbio(data.bio);
+          setid(data.id);
+          setprofilephoto(data.dp);
+          setcoverphoto(data.cover);
+          setname(data.username);
+        })
+      }
+    })
+  }, [props.name]);
+  
 
 
   const addbio = (event) => {
@@ -50,7 +88,7 @@ const Profilecontent = () => {
     setOpen(false);
 
 
-    fetch('https://winbookbackend.d3m0n1k.engineer/user/' + localStorage.getItem('id') + '/', {
+    fetch('https://winbookbackend.d3m0n1k.engineer/user/' + id + '/', {
       method: 'PATCH',
       headers: {
         "Accept": "application/json",
@@ -92,7 +130,7 @@ const Profilecontent = () => {
   }
 
   const deletepic = () => {
-    fetch('https://winbookbackend.d3m0n1k.engineer/user/' + localStorage.getItem('id') + '/update_dp', {
+    fetch('https://winbookbackend.d3m0n1k.engineer/user/' + id + '/update_dp', {
       method: 'DELETE',
       headers: {
         "Accept": "application/json",
@@ -113,7 +151,7 @@ const Profilecontent = () => {
     bdy.append('dp', image);
 
     event.preventDefault();
-    fetch('https://winbookbackend.d3m0n1k.engineer/user/' + localStorage.getItem('id') + '/update_dp/', {
+    fetch('https://winbookbackend.d3m0n1k.engineer/user/' + id + '/update_dp/', {
       method: 'POST',
       headers: {
         "Accept": "application/json",
@@ -135,32 +173,13 @@ const Profilecontent = () => {
     })
   }
 
-
-  useEffect(() => {
-    setprofilephoto(profilePic);
-    setcoverphoto(coverPic);
-    fetch('https://winbookbackend.d3m0n1k.engineer/user/f/' + localStorage.getItem('user') + '/', {
-      method: 'GET',
-      headers: {
-        "Accept": "application/json",
-        "Authorization": "Token " + localStorage.getItem('authtoken')
-      },
-    }).then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        response.json().then((data) => {
-          localStorage.setItem('id', data.id);
-          //console.log(data);
-          setbio(data.bio);
-          setprofilephoto(data.dp);
-          setcoverphoto(data.cover);
-        })
-      }
-    })
-  }, []);
-
   const viewprofile = () => {
     
     window.open(profilephoto, 'width=800, height=600');
+  }
+
+  const viewcover = () => {
+    window.open(coverphoto, 'width=800, height=600');
   }
 
 
@@ -170,7 +189,7 @@ const Profilecontent = () => {
     bdy.append('cover', image);
 
     event.preventDefault();
-    fetch('https://winbookbackend.d3m0n1k.engineer/user/' + localStorage.getItem('id') + '/update_cover/', {
+    fetch('https://winbookbackend.d3m0n1k.engineer/user/' + id + '/update_cover/', {
       method: 'POST',
       headers: {
         "Accept": "application/json",
@@ -205,27 +224,31 @@ const Profilecontent = () => {
                 className="profileCoverImg"
                 src={coverphoto}
                 alt="cover img"
+                onClick={viewcover}
               />
               <img
                 className="profileUserImg"
                 src={profilephoto}
                 alt="profile pic"
               />
-              <AddIcon className="profileUserImgAdd"
+              {localStorage.getItem('user')===name?<AddIcon className="profileUserImgAdd"
                 aria-controls={Open ? 'basic-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={Open ? 'true' : undefined}
-                onClick={handleClick} />
-              <Button variant="outlined" color="primary" className="butn" onClick={()=>{setOpen2(true)}}>Update Cover</Button>
+                onClick={handleClick} />:<></>}
+              {localStorage.getItem('user')===name?<Button variant="outlined" color="primary" className="butn" onClick={()=>{setOpen2(true)}}>Update Cover</Button>:<></>}
             </Box>
             <Box className="profileInfo">
-              <h4 className="profileInfoName">{localStorage.getItem('user')}</h4>
-              <Box className="profileInfoDesc">{bio}<EditIcon color='secondary' onClick={() => { setOpen(true) }} /></Box>
+              <h4 className="profileInfoName">{localStorage.getItem('user')===props.name?localStorage.getItem('user'):props.name}</h4>
+              <Box className="profileInfoDesc">{bio}{localStorage.getItem('user')===name?<EditIcon color='secondary' onClick={() => { setOpen(true) }} />:<></>}</Box>
             </Box>
           </Box>
         </Box>
       </Box>
-      <Share dp={profilephoto} />
+      <UserBox>
+      <Share />
+      </UserBox>
+      <Profilefeed id={id}/>
       <Styledmodal
         open={open}
         onClose={e => setOpen(false)}

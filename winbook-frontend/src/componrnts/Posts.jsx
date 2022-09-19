@@ -13,12 +13,14 @@ import { Divider } from '@mui/material';
 import { Menu, MenuItem } from '@mui/material';
 import { alert } from 'react-custom-alert';
 import 'react-custom-alert/dist/index.css';
-const Posts = ({ ob }) => {
+import { useNavigate } from 'react-router-dom';
+
+const Posts = (props) => {
   const [profilephoto,setprofilephoto] = useState();
+  const history = useNavigate();
 
   useEffect(() => {
-    if(typeof ob!== 'undefined'){
-    fetch('https://winbookbackend.d3m0n1k.engineer/user/f/'+ob.userName+'/',{
+    fetch('https://winbookbackend.d3m0n1k.engineer/user/f/'+props.ob.userName+'/',{
       method: 'GET',
       headers: {
         "Accept": "application/json",
@@ -27,13 +29,12 @@ const Posts = ({ ob }) => {
     }).then((response) => {
       if(response.status >= 200 && response.status < 300){
         response.json().then((data) => {
-          localStorage.setItem('id',data.id);
           setprofilephoto(data.dp);
         })
       }
     })
   
-}}, []);
+}, [props.ob]);
 
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, '0');
@@ -50,15 +51,13 @@ const Posts = ({ ob }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const [like, setlike] = useState((typeof ob !== 'undefined') ? ob.liked_cnt : 0);
-  const [status, setstatus] = useState((typeof ob !== 'undefined') ? ob.likedStatus : false);
-
-  if (typeof ob === 'undefined') return null;
+  const [like, setlike] = useState( props.ob.liked_cnt);
+  const [status, setstatus] = useState(props.ob.likedStatus);
 
 
   const deletePost = () => {
     setAnchorEl(false);
-    fetch('https://winbookbackend.d3m0n1k.engineer/post/'+ob.pk+'/', {
+    fetch('https://winbookbackend.d3m0n1k.engineer/post/'+props.ob.pk+'/', {
       method: 'DELETE',
       headers: {
         "Accept": "application/json",
@@ -73,7 +72,7 @@ const Posts = ({ ob }) => {
   }
 
   const likePost = () => {
-    fetch('https://winbookbackend.d3m0n1k.engineer/post/' + ob.pk + '/like/', {
+    fetch('https://winbookbackend.d3m0n1k.engineer/post/' + props.ob.pk + '/like/', {
       method: 'POST',
       headers: {
         "Accept": "application/json",
@@ -91,29 +90,39 @@ const Posts = ({ ob }) => {
     })
   }
 
+  const viewprofile = () => {
+    //console.log(props.ob.user);
+    history('/'+props.ob.userName+'/');
+  }
+
+  
+
+  
+
   return (
     <Card sx={{ margin: 0.5 }}>
       <CardHeader
       avatar={
-        <img src={profilephoto} alt="profile pic" style={{ width: 40, height: 40, borderRadius: 20 }} />
+        <img src={profilephoto} alt="profile pic" style={{ width: 40, height: 40, borderRadius: 20 }} onClick={viewprofile}/>
       }
       action={
         <IconButton aria-label="settings">
           <MoreVertIcon onClick={handleClick} />
         </IconButton>
       }
-      title={ob.userName}
-      subheader={ob.updated_at.split("T")[0]}
+      title={<Typography onClick={viewprofile}>{props.ob.userName}</Typography>
+      }
+      subheader={props.ob.updated_at.split("T")[0]}
     />
       <CardMedia
         component="img"
         height="20%"
-        image={ob.url}
-        alt={ob.userName}
+        image={props.ob.url}
+        alt={props.ob.userName}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {ob.caption}
+          {props.ob.caption}
         </Typography>
         <Divider />
         <Typography variant="body2" color="text.secondary" marginTop={1} marginBottom={0}>
@@ -150,7 +159,7 @@ const Posts = ({ ob }) => {
           horizontal: 'right',
         }}
       >
-        {ob.userName === localStorage.getItem('user') ? <div>
+        {props.ob.userName === localStorage.getItem('user') ? <div>
           <MenuItem >Edit Post</MenuItem>
           <Divider />
           <MenuItem onClick={deletePost}>Delete Post</MenuItem>

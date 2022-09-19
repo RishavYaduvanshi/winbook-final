@@ -13,10 +13,13 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const StyledToolBar = styled(Toolbar)({
   display: "flex",
   justifyContent: "space-between",
+  paddingLeft: 0,
+  marginLeft: 0,
 });
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
@@ -197,9 +200,7 @@ const Navbar = ({ mode, setMode }) => {
 
   const history = useNavigate();
   const logout = () => {
-    localStorage.removeItem('authtoken');
-    localStorage.removeItem('user');
-    localStorage.removeItem('id');
+    localStorage.clear();
     history("/");
     alert({message:'Logged Out!', type:'info'})
   }
@@ -226,6 +227,7 @@ const Navbar = ({ mode, setMode }) => {
       if(response.status >= 200 && response.status < 300){
         response.json().then((data) => {
           localStorage.setItem('id',data.id);
+          localStorage.setItem('profile',data.dp);
           setprofilephoto(data.dp);
         })
       }
@@ -239,7 +241,7 @@ const Navbar = ({ mode, setMode }) => {
         <NavLink to={"/home"} style={{color:'white',textDecoration:'none'}}><Typography variant='h6' sx={{ display: { xs: "none", sm: "block" } }}>WinBook</Typography></NavLink>
         {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Laptop sx={{ display: { xs: "block", sm: "none" } }} onClick={toggleDrawer(anchor, true)} />
+         <Box sx={{ display: { xs: "block", sm: "none" }, justifyContent:"right"}}><MoreVertIcon  onClick={toggleDrawer(anchor, true)}/> <Laptop /></Box>
           <Drawer
             anchor={anchor}
             open={state[anchor]}
@@ -252,13 +254,15 @@ const Navbar = ({ mode, setMode }) => {
         <Search>
           <InputBase placeholder='Search...' />
         </Search>
-        <Box sx={{ display: { xs: 'none', sm: 'block' } }}><img src={profilephoto} style={{ width: 40, height: 40, borderRadius: 20}} onClick={e => {
+        <Box sx={{ display: { xs: 'none', sm: 'block' } }}><img src={profilephoto} alt="profile pic" style={{ width: 40, height: 40, borderRadius: 20}} onClick={e => {
           tkn!==null?setOpen(true):setOpen(false);
           }}/></Box>
         <UserBox onClick={e => {
           tkn!==null?setOpen(true):setOpen(false);
         }}>
-          {tkn===null?<Typography variant='span'>Forgot Password</Typography>:<Typography variant='span'>{localStorage.getItem('user')}</Typography>}
+          {tkn===null?<Typography variant='span'>Forgot Password</Typography>:<Box sx={{ display: { xs: 'block', sm: 'none' } }}><img src={profilephoto} alt="profile pic" style={{ width: 40, height: 40, borderRadius: 20}} onClick={e => {
+          tkn!==null?setOpen(true):setOpen(false);
+          }}/></Box>}
         </UserBox>
       </StyledToolBar>
       <Menu
@@ -295,7 +299,7 @@ const Navbar = ({ mode, setMode }) => {
         anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
       >
         <MenuItem onClick={profile}>
-        <img src={profilephoto} style={{ width: 30, height: 30, borderRadius: 20}}/> <Typography sx={{marginLeft:"10px"}}>{localStorage.getItem('user')}</Typography>
+        <img src={profilephoto} alt="profile pic" style={{ width: 30, height: 30, borderRadius: 20}}/> <Typography sx={{marginLeft:"10px"}}>{localStorage.getItem('user')}</Typography>
         </MenuItem>
         <Divider />
         <MenuItem>

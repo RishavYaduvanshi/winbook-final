@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { alert } from 'react-custom-alert';
 import 'react-custom-alert/dist/index.css';
 
-export default function Share({dp}) {
+export default function Share() {
   const history = useNavigate();
 
   const [image,setImage] = useState();
@@ -72,7 +72,7 @@ export default function Share({dp}) {
       <div className="shareWrapper">
         <div className="shareTop">
           {/* <Avatar className="shareProfileImg" /> */}
-          <img src={dp} alt="" className="shareProfileImg" />
+          <img src={localStorage.getItem('profile')} alt="" className="shareProfileImg" />
           <InputBase
             placeholder="What's in your mind ?"
             className="shareInput"
