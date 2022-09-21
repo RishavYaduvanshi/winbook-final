@@ -17,7 +17,7 @@ services:
 
   frontend:
     build:
-      target: ./winbook-frontend
+      context: ./winbook-frontend
     cpus: "0.5"
     cpu_percent: 50
     mem_reservation: 400
