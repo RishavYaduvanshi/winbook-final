@@ -16,7 +16,12 @@ services:
       - .env
 
   frontend:
-    build: ./winbook-frontend
+    build:
+      target: ./winbook-frontend
+    cpus: "0.5"
+    cpu_percent: 50
+    mem_reservation: 400
+    
     image: winbook-frontend
     ports:
       - "3000:3000"
